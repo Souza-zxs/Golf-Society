@@ -83,6 +83,17 @@ export type BlogPost = {
 
 export type EventStatus = "upcoming" | "ongoing" | "completed" | "cancelled";
 
+export type EventPartner = {
+  id: string;
+  event_id: string;
+  name: string;
+  logo_url?: string | null;
+  website?: string | null;
+  tier?: string | null;
+  display_order: number;
+  created_at: string;
+};
+
 export type SsgEvent = {
   id: string;
   title: string;
@@ -96,6 +107,7 @@ export type SsgEvent = {
   status: EventStatus;
   cover_image_url?: string | null;
   max_attendees?: number | null;
+  partners?: EventPartner[];
 };
 
 export type GalleryPhoto = {

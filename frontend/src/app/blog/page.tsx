@@ -3,6 +3,7 @@ import { Container } from "@/components/ui/container";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { BlogPostCard } from "@/components/content/blog-post-card";
 import { EmptyState } from "@/components/content/empty-state";
+import { Reveal } from "@/components/motion/reveal";
 import { api } from "@/lib/api";
 
 export const metadata: Metadata = {
@@ -26,13 +27,19 @@ export default async function BlogPage() {
     <>
       <section className="bg-ink py-20 sm:py-28">
         <Container>
-          <Eyebrow>Conteúdo</Eyebrow>
-          <h1 className="font-display mt-6 max-w-3xl text-5xl leading-[1.1] tracking-tight text-ivory sm:text-6xl">
-            Do fairway aos negócios.
-          </h1>
-          <p className="mt-8 max-w-2xl text-lg leading-relaxed text-mist">
-            Bastidores dos encontros, entrevistas com membros e reflexões sobre negócio, liderança e golfe.
-          </p>
+          <Reveal>
+            <Eyebrow>Conteúdo</Eyebrow>
+          </Reveal>
+          <Reveal delay={100}>
+            <h1 className="font-display mt-6 max-w-3xl text-5xl leading-[1.1] tracking-tight text-ivory sm:text-6xl">
+              Do fairway aos negócios.
+            </h1>
+          </Reveal>
+          <Reveal delay={200}>
+            <p className="mt-8 max-w-2xl text-lg leading-relaxed text-mist">
+              Bastidores dos encontros, entrevistas com membros e reflexões sobre negócio, liderança e golfe.
+            </p>
+          </Reveal>
         </Container>
       </section>
 
@@ -40,8 +47,10 @@ export default async function BlogPage() {
         <Container>
           {posts.length > 0 ? (
             <div className="grid gap-x-10 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
-              {posts.map((post) => (
-                <BlogPostCard key={post.id} post={post} />
+              {posts.map((post, index) => (
+                <Reveal key={post.id} delay={(index % 3) * 110}>
+                  <BlogPostCard post={post} />
+                </Reveal>
               ))}
             </div>
           ) : (

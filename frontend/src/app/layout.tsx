@@ -4,6 +4,7 @@ import "./globals.css";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { WhatsAppButton } from "@/components/layout/whatsapp-button";
+import { PageTransition } from "@/components/layout/page-transition";
 
 const fraunces = Fraunces({
   variable: "--font-fraunces",
@@ -44,7 +45,9 @@ export default function RootLayout({
     >
       <body className="flex min-h-full flex-col bg-ivory text-ink">
         <Header />
-        <main className="flex-1">{children}</main>
+        <main className="flex-1">
+          <PageTransition>{children}</PageTransition>
+        </main>
         <Footer />
         <WhatsAppButton />
       </body>

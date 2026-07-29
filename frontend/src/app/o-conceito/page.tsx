@@ -3,6 +3,8 @@ import { Container } from "@/components/ui/container";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { LinkButton } from "@/components/ui/button";
+import { Reveal } from "@/components/motion/reveal";
+import { LineDraw } from "@/components/motion/line-draw";
 
 export const metadata: Metadata = {
   title: "O Conceito",
@@ -36,27 +38,36 @@ export default function ConceitoPage() {
     <>
       <section className="bg-ink py-20 sm:py-28">
         <Container>
-          <Eyebrow>O Conceito</Eyebrow>
-          <h1 className="font-display mt-6 max-w-3xl text-5xl leading-[1.1] tracking-tight text-ivory sm:text-6xl">
-            O golfe nunca foi sobre o golfe.
-          </h1>
-          <p className="mt-8 max-w-2xl text-lg leading-relaxed text-mist">
-            Há um século, os maiores negócios do mundo nasceram em campos como este. A Sellers Society Golf
-            existe para trazer esse método de volta — com curadoria, estrutura e um propósito declarado: gerar
-            negócio de verdade entre pessoas que se respeitam.
-          </p>
+          <Reveal>
+            <Eyebrow>O Conceito</Eyebrow>
+          </Reveal>
+          <Reveal delay={100}>
+            <h1 className="font-display mt-6 max-w-3xl text-5xl leading-[1.1] tracking-tight text-ivory sm:text-6xl">
+              O golfe nunca foi sobre o golfe.
+            </h1>
+          </Reveal>
+          <Reveal delay={200}>
+            <p className="mt-8 max-w-2xl text-lg leading-relaxed text-mist">
+              Há um século, os maiores negócios do mundo nasceram em campos como este. A Sellers Society Golf
+              existe para trazer esse método de volta — com curadoria, estrutura e um propósito declarado: gerar
+              negócio de verdade entre pessoas que se respeitam.
+            </p>
+          </Reveal>
         </Container>
       </section>
 
       <section className="bg-ivory py-24 sm:py-28">
         <Container>
-          <SectionHeading eyebrow="Por que golfe" title="A vantagem que o escritório não tem" tone="light" />
+          <Reveal>
+            <SectionHeading eyebrow="Por que golfe" title="A vantagem que o escritório não tem" tone="light" />
+          </Reveal>
           <div className="mt-14 grid gap-x-10 gap-y-12 sm:grid-cols-3">
-            {REASONS.map((reason) => (
-              <div key={reason.title} className="border-t border-ink/15 pt-6">
+            {REASONS.map((reason, index) => (
+              <Reveal key={reason.title} delay={index * 120}>
+                <LineDraw tone="light" className="mb-6" />
                 <h3 className="font-display text-2xl text-ink">{reason.title}</h3>
                 <p className="mt-3 text-sm leading-relaxed text-stone">{reason.text}</p>
-              </div>
+              </Reveal>
             ))}
           </div>
         </Container>
@@ -64,17 +75,19 @@ export default function ConceitoPage() {
 
       <section className="bg-ink py-24 sm:py-28">
         <Container className="grid gap-16 lg:grid-cols-[0.8fr_1.2fr]">
-          <SectionHeading
-            eyebrow="Como Funciona"
-            title="Quatro formatos, um objetivo"
-            description="Cada formato tem uma função específica na jornada do membro — do primeiro aperto de mão ao contrato assinado."
-            tone="dark"
-          />
-          <div className="border border-gold-soft/25">
+          <Reveal>
+            <SectionHeading
+              eyebrow="Como Funciona"
+              title="Quatro formatos, um objetivo"
+              description="Cada formato tem uma função específica na jornada do membro — do primeiro aperto de mão ao contrato assinado."
+              tone="dark"
+            />
+          </Reveal>
+          <Reveal delay={150} className="border border-gold-soft/25">
             {FORMATS.map((item) => (
               <div
                 key={item.label}
-                className="flex flex-col gap-1 border-b border-gold-soft/15 px-6 py-5 last:border-b-0 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6"
+                className="flex flex-col gap-1 border-b border-gold-soft/15 px-6 py-5 transition-colors duration-300 last:border-b-0 hover:bg-gold-soft/5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6"
               >
                 <span className="font-data text-[11px] uppercase tracking-[0.2em] text-gold">
                   {item.label}
@@ -82,23 +95,25 @@ export default function ConceitoPage() {
                 <span className="text-sm text-mist sm:text-right">{item.value}</span>
               </div>
             ))}
-          </div>
+          </Reveal>
         </Container>
       </section>
 
       <section className="bg-ivory py-24 text-center sm:py-28">
         <Container>
-          <p className="font-display mx-auto max-w-2xl text-3xl italic leading-snug tracking-tight text-ink sm:text-4xl">
-            &ldquo;Não vendemos acesso a um campo. Vendemos acesso às pessoas certas, no momento certo.&rdquo;
-          </p>
-          <div className="mt-10 flex flex-wrap justify-center gap-4">
-            <LinkButton href="/beneficios" variant="outline-light">
-              Ver Benefícios para Membros
-            </LinkButton>
-            <LinkButton href="/seja-membro" variant="solid">
-              Solicitar Participação
-            </LinkButton>
-          </div>
+          <Reveal>
+            <p className="font-display mx-auto max-w-2xl text-3xl italic leading-snug tracking-tight text-ink sm:text-4xl">
+              &ldquo;Não vendemos acesso a um campo. Vendemos acesso às pessoas certas, no momento certo.&rdquo;
+            </p>
+            <div className="mt-10 flex flex-wrap justify-center gap-4">
+              <LinkButton href="/beneficios" variant="outline-light">
+                Ver Benefícios para Membros
+              </LinkButton>
+              <LinkButton href="/seja-membro" variant="solid">
+                Solicitar Participação
+              </LinkButton>
+            </div>
+          </Reveal>
         </Container>
       </section>
     </>

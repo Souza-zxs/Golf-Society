@@ -33,23 +33,6 @@
   --font-data: var(--font-plex-mono);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .reveal {
-    animation: reveal 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
-  }
-}
-
-@keyframes reveal {
-  from {
-    opacity: 0;
-    transform: translateY(14px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 * {
   border-color: var(--color-line-light);
 }
@@ -58,12 +41,62 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Reveal-on-scroll: elements start hidden, JS (Reveal component) flips
+   data-visible once the IntersectionObserver fires. Two variants share the
+   same choreography so unrelated elements never feel out of sync. */
+.reveal-up {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-up[data-visible="true"] {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* "Traço se desenhando": a hairline that draws itself in, left to right —
+   the same gesture as marking a line on a scorecard. */
+.reveal-line {
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.9s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.reveal-line[data-visible="true"] {
+  transform: scaleX(1);
+}
+
+/* Whole-page transition on route change: a quiet lift, not a wipe. */
+.page-transition {
+  animation: page-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
-  .reveal {
-    animation: none;
+
+  .reveal-up,
+  .reveal-line,
+  .page-transition {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
   }
 }
 

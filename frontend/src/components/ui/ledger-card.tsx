@@ -1,22 +1,28 @@
 import { ReactNode } from "react";
+import { Reveal } from "../motion/reveal";
+import { LineDraw } from "../motion/line-draw";
 
 export function LedgerCard({
   children,
   tone = "dark",
+  delay = 0,
   className = "",
 }: {
   children: ReactNode;
   tone?: "dark" | "light";
+  delay?: number;
   className?: string;
 }) {
   return (
-    <div
+    <Reveal
+      delay={delay}
       className={`border ${
         tone === "dark" ? "border-gold-soft/30 bg-ink-2/60" : "border-ink/15 bg-ivory-2"
       } ${className}`}
     >
+      <LineDraw tone={tone} />
       {children}
-    </div>
+    </Reveal>
   );
 }
 

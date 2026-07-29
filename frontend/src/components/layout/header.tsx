@@ -24,8 +24,8 @@ export function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`font-data text-[11px] uppercase tracking-[0.18em] transition-colors ${
-                  active ? "text-gold" : "text-mist hover:text-ivory"
+                className={`font-data relative py-1 text-[11px] uppercase tracking-[0.18em] transition-colors duration-300 after:absolute after:-bottom-1 after:left-0 after:h-px after:w-full after:origin-left after:bg-gold after:transition-transform after:duration-300 after:content-[''] hover:after:scale-x-100 ${
+                  active ? "text-gold after:scale-x-100" : "text-mist after:scale-x-0 hover:text-ivory"
                 }`}
               >
                 {link.label}

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Container } from "@/components/ui/container";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { formatPublishedDate } from "@/lib/format";
+import { Reveal } from "@/components/motion/reveal";
 import { api, ApiError, BlogPost } from "@/lib/api";
 
 async function getPost(slug: string): Promise<BlogPost | null> {
@@ -41,7 +42,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           ← Voltar ao Conteúdo
         </Link>
 
-        <div className="mt-8">
+        <Reveal delay={80} className="mt-8">
           <Eyebrow tone="light">
             {post.published_at ? formatPublishedDate(post.published_at) : "Conteúdo"}
             {post.blog_categories ? ` · ${post.blog_categories.name}` : ""}
@@ -54,18 +55,22 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
               Por {post.author_name}
             </p>
           ) : null}
-        </div>
+        </Reveal>
 
         {post.cover_image_url ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={post.cover_image_url}
-            alt=""
-            className="mt-10 aspect-[16/9] w-full border border-ink/10 object-cover"
-          />
+          <Reveal delay={160}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={post.cover_image_url}
+              alt=""
+              className="mt-10 aspect-[16/9] w-full border border-ink/10 object-cover"
+            />
+          </Reveal>
         ) : null}
 
-        <div className="mt-10 whitespace-pre-wrap text-base leading-[1.8] text-ink/85">{post.content}</div>
+        <Reveal delay={240} className="mt-10 whitespace-pre-wrap text-base leading-[1.8] text-ink/85">
+          {post.content}
+        </Reveal>
       </Container>
     </article>
   );

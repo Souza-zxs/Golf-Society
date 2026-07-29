@@ -3,6 +3,7 @@ import { Container } from "@/components/ui/container";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { EventCard } from "@/components/content/event-card";
 import { EmptyState } from "@/components/content/empty-state";
+import { Reveal } from "@/components/motion/reveal";
 import { api } from "@/lib/api";
 
 export const metadata: Metadata = {
@@ -26,14 +27,20 @@ export default async function EventosPage() {
     <>
       <section className="bg-ink py-20 sm:py-28">
         <Container>
-          <Eyebrow>Eventos</Eyebrow>
-          <h1 className="font-display mt-6 max-w-3xl text-5xl leading-[1.1] tracking-tight text-ivory sm:text-6xl">
-            A agenda que move a comunidade.
-          </h1>
-          <p className="mt-8 max-w-2xl text-lg leading-relaxed text-mist">
-            Encontros mensais, torneios trimestrais e experiências com patrocinadores — cada um com vagas
-            limitadas e formação de grupo curada.
-          </p>
+          <Reveal>
+            <Eyebrow>Eventos</Eyebrow>
+          </Reveal>
+          <Reveal delay={100}>
+            <h1 className="font-display mt-6 max-w-3xl text-5xl leading-[1.1] tracking-tight text-ivory sm:text-6xl">
+              A agenda que move a comunidade.
+            </h1>
+          </Reveal>
+          <Reveal delay={200}>
+            <p className="mt-8 max-w-2xl text-lg leading-relaxed text-mist">
+              Encontros mensais, torneios trimestrais e experiências com patrocinadores — cada um com vagas
+              limitadas e formação de grupo curada.
+            </p>
+          </Reveal>
         </Container>
       </section>
 
@@ -41,8 +48,10 @@ export default async function EventosPage() {
         <Container>
           {events.length > 0 ? (
             <div className="flex flex-col">
-              {events.map((event) => (
-                <EventCard key={event.id} event={event} />
+              {events.map((event, index) => (
+                <Reveal key={event.id} delay={(index % 5) * 80}>
+                  <EventCard event={event} />
+                </Reveal>
               ))}
             </div>
           ) : (
