@@ -1,15 +1,25 @@
 import { Request, Response } from 'express';
 import { supabase } from '../config/supabase';
+import { sendInternalError } from '../utils/httpError';
 
-export async function listMeetingSlots(req: Request, res: Response) {
-  const onlyOpen = req.query.status !== 'all';
+export async function listMeetingSlots(_req: Request, res: Response) {
+  const { data, error } = await supabase
+    .from('meeting_slots')
+    .select('*')
+    .eq('status', 'open')
+    .order('starts_at', { ascending: true });
 
-  let query = supabase.from('meeting_slots').select('*').order('starts_at', { ascending: true });
-  if (onlyOpen) query = query.eq('status', 'open');
+  if (error) return sendInternalError(res, 'Erro ao listar horários', error);
+  return res.json(data);
+}
 
-  const { data, error } = await query;
+export async function listMeetingSlotsAdmin(_req: Request, res: Response) {
+  const { data, error } = await supabase
+    .from('meeting_slots')
+    .select('*')
+    .order('starts_at', { ascending: true });
 
-  if (error) return res.status(500).json({ title: 'Erro ao listar horários', detail: error.message, status: 500 });
+  if (error) return sendInternalError(res, 'Erro ao listar horários', error);
   return res.json(data);
 }
 
@@ -20,7 +30,7 @@ export async function createMeetingSlot(req: Request, res: Response) {
     .select()
     .single();
 
-  if (error) return res.status(500).json({ title: 'Erro ao criar horário', detail: error.message, status: 500 });
+  if (error) return sendInternalError(res, 'Erro ao criar horário', error);
   return res.status(201).json(data);
 }
 
@@ -34,7 +44,7 @@ export async function cancelMeetingSlot(req: Request, res: Response) {
     .select()
     .single();
 
-  if (error) return res.status(500).json({ title: 'Erro ao cancelar horário', detail: error.message, status: 500 });
+  if (error) return sendInternalError(res, 'Erro ao cancelar horário', error);
   if (!data) return res.status(404).json({ title: 'Horário não encontrado', status: 404 });
   return res.json(data);
 }
@@ -52,7 +62,7 @@ export async function bookMeetingSlot(req: Request, res: Response) {
     .select()
     .maybeSingle();
 
-  if (updateError) return res.status(500).json({ title: 'Erro ao reservar horário', detail: updateError.message, status: 500 });
+  if (updateError) return sendInternalError(res, 'Erro ao reservar horário', updateError);
 
   if (!updatedSlot) {
     const { data: existingSlot } = await supabase.from('meeting_slots').select('id').eq('id', slotId).maybeSingle();
@@ -69,7 +79,7 @@ export async function bookMeetingSlot(req: Request, res: Response) {
   if (bookingError) {
     // Reserva falhou após travar o slot: libera o horário para não perder a vaga.
     await supabase.from('meeting_slots').update({ status: 'open' }).eq('id', slotId);
-    return res.status(500).json({ title: 'Erro ao reservar horário', detail: bookingError.message, status: 500 });
+    return sendInternalError(res, 'Erro ao reservar horário', bookingError);
   }
 
   return res.status(201).json(booking);
@@ -81,6 +91,6 @@ export async function listMeetingBookings(_req: Request, res: Response) {
     .select('*, meeting_slots(starts_at, ends_at, location)')
     .order('created_at', { ascending: false });
 
-  if (error) return res.status(500).json({ title: 'Erro ao listar reservas', detail: error.message, status: 500 });
+  if (error) return sendInternalError(res, 'Erro ao listar reservas', error);
   return res.json(data);
 }

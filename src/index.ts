@@ -13,6 +13,10 @@ import galleryRouter from './routes/gallery';
 
 const app = express();
 
+// Atrás de proxy/CDN em produção (Render, Vercel, nginx etc.) para que o
+// rate limiter identifique o IP real do cliente via X-Forwarded-For.
+app.set('trust proxy', 1);
+
 app.use(cors({ origin: env.corsOrigin }));
 app.use(express.json());
 

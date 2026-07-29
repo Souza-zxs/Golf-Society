@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { supabase } from '../config/supabase';
+import { sendInternalError } from '../utils/httpError';
 
 export async function createSponsorshipApplication(req: Request, res: Response) {
   const { data, error } = await supabase
@@ -8,7 +9,7 @@ export async function createSponsorshipApplication(req: Request, res: Response) 
     .select()
     .single();
 
-  if (error) return res.status(500).json({ title: 'Erro ao enviar candidatura de patrocínio', detail: error.message, status: 500 });
+  if (error) return sendInternalError(res, 'Erro ao enviar candidatura de patrocínio', error);
   return res.status(201).json(data);
 }
 
@@ -18,7 +19,7 @@ export async function listSponsorshipApplications(_req: Request, res: Response) 
     .select('*')
     .order('created_at', { ascending: false });
 
-  if (error) return res.status(500).json({ title: 'Erro ao listar patrocinadores', detail: error.message, status: 500 });
+  if (error) return sendInternalError(res, 'Erro ao listar patrocinadores', error);
   return res.json(data);
 }
 
@@ -32,7 +33,7 @@ export async function updateSponsorshipStatus(req: Request, res: Response) {
     .select()
     .single();
 
-  if (error) return res.status(500).json({ title: 'Erro ao atualizar status', detail: error.message, status: 500 });
+  if (error) return sendInternalError(res, 'Erro ao atualizar status', error);
   if (!data) return res.status(404).json({ title: 'Candidatura não encontrada', status: 404 });
   return res.json(data);
 }

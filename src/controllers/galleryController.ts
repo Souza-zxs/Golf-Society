@@ -2,6 +2,7 @@ import { randomUUID } from 'crypto';
 import { Request, Response } from 'express';
 import { supabase } from '../config/supabase';
 import { env } from '../config/env';
+import { sendInternalError } from '../utils/httpError';
 
 const EXTENSION_BY_MIME: Record<string, string> = {
   'image/jpeg': 'jpg',
@@ -29,7 +30,7 @@ export async function listGalleryPhotos(req: Request, res: Response) {
 
   const { data, error, count } = await query;
 
-  if (error) return res.status(500).json({ title: 'Erro ao listar fotos', detail: error.message, status: 500 });
+  if (error) return sendInternalError(res, 'Erro ao listar fotos', error);
   return res.json({ data, page, pageSize, total: count ?? 0 });
 }
 
@@ -49,7 +50,7 @@ export async function uploadGalleryPhoto(req: Request, res: Response) {
     .upload(storagePath, file.buffer, { contentType: file.mimetype });
 
   if (uploadError) {
-    return res.status(500).json({ title: 'Erro ao enviar imagem', detail: uploadError.message, status: 500 });
+    return sendInternalError(res, 'Erro ao enviar imagem', uploadError);
   }
 
   const { data: publicUrlData } = supabase.storage.from(env.galleryBucket).getPublicUrl(storagePath);
@@ -67,7 +68,7 @@ export async function uploadGalleryPhoto(req: Request, res: Response) {
 
   if (error) {
     await supabase.storage.from(env.galleryBucket).remove([storagePath]);
-    return res.status(500).json({ title: 'Erro ao registrar foto', detail: error.message, status: 500 });
+    return sendInternalError(res, 'Erro ao registrar foto', error);
   }
 
   return res.status(201).json(data);
@@ -82,11 +83,11 @@ export async function deleteGalleryPhoto(req: Request, res: Response) {
     .eq('id', id)
     .maybeSingle();
 
-  if (fetchError) return res.status(500).json({ title: 'Erro ao buscar foto', detail: fetchError.message, status: 500 });
+  if (fetchError) return sendInternalError(res, 'Erro ao buscar foto', fetchError);
   if (!photo) return res.status(404).json({ title: 'Foto não encontrada', status: 404 });
 
   const { error: deleteError } = await supabase.from('gallery_photos').delete().eq('id', id);
-  if (deleteError) return res.status(500).json({ title: 'Erro ao remover foto', detail: deleteError.message, status: 500 });
+  if (deleteError) return sendInternalError(res, 'Erro ao remover foto', deleteError);
 
   await supabase.storage.from(env.galleryBucket).remove([photo.storage_path]);
 

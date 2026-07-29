@@ -103,7 +103,8 @@ Todas as respostas de erro seguem um formato inspirado em RFC 7807
 
 | Método | Rota | Acesso | Descrição |
 | --- | --- | --- | --- |
-| GET | `/meetings/slots` | público | Lista horários abertos (`?status=all` para admin ver todos) |
+| GET | `/meetings/slots` | público | Lista somente horários abertos |
+| GET | `/meetings/slots/admin` | admin | Lista horários em qualquer status |
 | POST | `/meetings/slots` | admin | Cria horário disponível |
 | DELETE | `/meetings/slots/:id` | admin | Cancela horário |
 | POST | `/meetings/slots/:id/book` | público | Reserva um horário |

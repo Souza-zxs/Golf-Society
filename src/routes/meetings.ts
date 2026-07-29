@@ -5,6 +5,7 @@ import { publicFormLimiter } from '../middleware/rateLimiter';
 import { createMeetingSlotSchema, createMeetingBookingSchema } from '../schemas/meeting.schema';
 import {
   listMeetingSlots,
+  listMeetingSlotsAdmin,
   createMeetingSlot,
   cancelMeetingSlot,
   bookMeetingSlot,
@@ -13,8 +14,11 @@ import {
 
 const router = Router();
 
-// GET /meetings/slots — público, lista horários disponíveis (?status=all para ver todos, admin)
+// GET /meetings/slots — público, lista somente horários abertos
 router.get('/slots', listMeetingSlots);
+
+// GET /meetings/slots/admin — administrativo, lista horários em qualquer status
+router.get('/slots/admin', requireAdmin, listMeetingSlotsAdmin);
 
 // POST /meetings/slots — administrativo, cria horário disponível para agendamento
 router.post('/slots', requireAdmin, validateBody(createMeetingSlotSchema), createMeetingSlot);

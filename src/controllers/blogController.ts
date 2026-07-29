@@ -1,17 +1,18 @@
 import { Request, Response } from 'express';
 import { supabase } from '../config/supabase';
+import { sendInternalError } from '../utils/httpError';
 
 export async function listBlogCategories(_req: Request, res: Response) {
   const { data, error } = await supabase.from('blog_categories').select('*').order('name');
 
-  if (error) return res.status(500).json({ title: 'Erro ao listar categorias', detail: error.message, status: 500 });
+  if (error) return sendInternalError(res, 'Erro ao listar categorias', error);
   return res.json(data);
 }
 
 export async function createBlogCategory(req: Request, res: Response) {
   const { data, error } = await supabase.from('blog_categories').insert(req.body).select().single();
 
-  if (error) return res.status(500).json({ title: 'Erro ao criar categoria', detail: error.message, status: 500 });
+  if (error) return sendInternalError(res, 'Erro ao criar categoria', error);
   return res.status(201).json(data);
 }
 
@@ -40,7 +41,7 @@ export async function listBlogPosts(req: Request, res: Response) {
 
   const { data, error, count } = await query;
 
-  if (error) return res.status(500).json({ title: 'Erro ao listar posts', detail: error.message, status: 500 });
+  if (error) return sendInternalError(res, 'Erro ao listar posts', error);
   return res.json({ data, page, pageSize, total: count ?? 0 });
 }
 
@@ -66,7 +67,7 @@ export async function listBlogPostsAdmin(req: Request, res: Response) {
 
   const { data, error, count } = await query;
 
-  if (error) return res.status(500).json({ title: 'Erro ao listar posts', detail: error.message, status: 500 });
+  if (error) return sendInternalError(res, 'Erro ao listar posts', error);
   return res.json({ data, page, pageSize, total: count ?? 0 });
 }
 
@@ -79,7 +80,7 @@ export async function getBlogPostBySlug(req: Request, res: Response) {
     .eq('slug', slug)
     .maybeSingle();
 
-  if (error) return res.status(500).json({ title: 'Erro ao buscar post', detail: error.message, status: 500 });
+  if (error) return sendInternalError(res, 'Erro ao buscar post', error);
   if (!data) return res.status(404).json({ title: 'Post não encontrado', status: 404 });
   return res.json(data);
 }
@@ -92,7 +93,7 @@ export async function createBlogPost(req: Request, res: Response) {
 
   const { data, error } = await supabase.from('blog_posts').insert(payload).select().single();
 
-  if (error) return res.status(500).json({ title: 'Erro ao criar post', detail: error.message, status: 500 });
+  if (error) return sendInternalError(res, 'Erro ao criar post', error);
   return res.status(201).json(data);
 }
 
@@ -106,7 +107,7 @@ export async function updateBlogPost(req: Request, res: Response) {
 
   const { data, error } = await supabase.from('blog_posts').update(payload).eq('id', id).select().single();
 
-  if (error) return res.status(500).json({ title: 'Erro ao atualizar post', detail: error.message, status: 500 });
+  if (error) return sendInternalError(res, 'Erro ao atualizar post', error);
   if (!data) return res.status(404).json({ title: 'Post não encontrado', status: 404 });
   return res.json(data);
 }
@@ -116,6 +117,6 @@ export async function deleteBlogPost(req: Request, res: Response) {
 
   const { error } = await supabase.from('blog_posts').delete().eq('id', id);
 
-  if (error) return res.status(500).json({ title: 'Erro ao remover post', detail: error.message, status: 500 });
+  if (error) return sendInternalError(res, 'Erro ao remover post', error);
   return res.status(204).send();
 }
