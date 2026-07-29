@@ -1,8 +1,10 @@
+import { ReactNode } from "react";
+
 export function Eyebrow({
   children,
   tone = "dark",
 }: {
-  children: string;
+  children: ReactNode;
   tone?: "dark" | "light";
 }) {
   return (
