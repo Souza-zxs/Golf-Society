@@ -1,0 +1,100 @@
+@import "tailwindcss";
+
+:root {
+  --color-ink: #0e1210;
+  --color-ink-2: #141a17;
+  --color-green: #16302a;
+  --color-green-deep: #0b1f1a;
+  --color-ivory: #f6f3ea;
+  --color-ivory-2: #efeadb;
+  --color-gold: #b08d3e;
+  --color-gold-soft: #d9c08a;
+  --color-gold-line: rgba(176, 141, 62, 0.35);
+  --color-stone: #8a8579;
+  --color-mist: #b9bdb6;
+  --color-line-dark: rgba(217, 192, 138, 0.16);
+  --color-line-light: rgba(14, 18, 16, 0.12);
+}
+
+@theme inline {
+  --color-ink: var(--color-ink);
+  --color-ink-2: var(--color-ink-2);
+  --color-green: var(--color-green);
+  --color-green-deep: var(--color-green-deep);
+  --color-ivory: var(--color-ivory);
+  --color-ivory-2: var(--color-ivory-2);
+  --color-gold: var(--color-gold);
+  --color-gold-soft: var(--color-gold-soft);
+  --color-stone: var(--color-stone);
+  --color-mist: var(--color-mist);
+
+  --font-display: var(--font-fraunces);
+  --font-body: var(--font-manrope);
+  --font-data: var(--font-plex-mono);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .reveal {
+    animation: reveal 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+* {
+  border-color: var(--color-line-light);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal {
+    animation: none;
+  }
+}
+
+body {
+  background: var(--color-ivory);
+  color: var(--color-ink);
+  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+}
+
+::selection {
+  background: var(--color-gold);
+  color: var(--color-ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 3px;
+}
+
+.font-display {
+  font-family: var(--font-display), "Georgia", serif;
+}
+
+.font-data {
+  font-family: var(--font-data), ui-monospace, monospace;
+}
+
+.hairline {
+  border-color: var(--color-line-light);
+}
+
+.hairline-dark {
+  border-color: var(--color-line-dark);
+}
