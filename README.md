@@ -1,36 +1,88 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Sellers Society Golf — Front-end
 
-## Getting Started
+Site institucional do **Sellers Society Golf**: networking empresarial via
+golfe (eventos corporativos, comunidade de empresários/CEOs/executivos,
+patrocínio). Foco inicial: São Paulo.
 
-First, run the development server:
+Stack: Next.js 16 (App Router) + React 19 + TypeScript + Tailwind CSS 4.
+
+## Como rodar
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+cp .env.example .env.local   # aponta para a API local (ver abaixo)
+npm run dev                   # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Build de produção:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run build
+npm start
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Lint:
 
-## Learn More
+```bash
+npm run lint
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Backend
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Este front-end consome a API do **Sellers Society Golf** (backend em
+`D:\Projetos\Golf Society`, Node.js + Express + Supabase). Configure a URL
+via variável de ambiente:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| Variável | Descrição |
+| --- | --- |
+| `NEXT_PUBLIC_API_URL` | URL base da API (padrão: `http://localhost:3333`) |
 
-## Deploy on Vercel
+Rode a API localmente (`npm run dev` no repo do backend, porta `3333`) antes
+de usar formulários, eventos, blog, galeria e agendamento aqui no front.
+Endpoints administrativos (protegidos por `ADMIN_API_KEY`) não são usados
+por este front — apenas as rotas públicas documentadas no README do
+backend.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Páginas
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| Rota | Conteúdo | Integração com API |
+| --- | --- | --- |
+| `/` | Home | Próximos eventos, últimos posts do blog |
+| `/o-conceito` | O Conceito | Estático |
+| `/sobre` | Sobre a Sellers Society Golf | Estático |
+| `/beneficios` | Benefícios para Membros | Estático |
+| `/eventos`, `/eventos/[slug]` | Agenda de eventos | `GET /events`, `GET /events/:slug`, `GET /gallery?event_id=` |
+| `/patrocinadores` | Modalidades de patrocínio | Estático |
+| `/galeria` | Galeria de fotos | `GET /gallery` |
+| `/blog`, `/blog/[slug]` | Conteúdo/blog | `GET /blog/posts`, `GET /blog/posts/:slug` |
+| `/seja-membro` | Candidatura a membro | `POST /membership-applications` |
+| `/seja-patrocinador` | Candidatura de patrocínio | `POST /sponsorships` |
+| `/contato` | Lista de espera + agendamento de conversa | `POST /waitlist`, `GET /meetings/slots`, `POST /meetings/slots/:id/book` |
+
+Instagram, LinkedIn e WhatsApp são links diretos no cabeçalho/rodapé — sem
+integração de API.
+
+## Estrutura
+
+```
+src/
+  app/            # rotas (App Router)
+  components/
+    ui/           # primitivos (botão, container, ledger card, etc.)
+    layout/       # header, footer, logo, botão de WhatsApp
+    forms/        # formulários com integração à API
+    content/      # cards de evento/post, estado vazio
+  lib/
+    api.ts        # client HTTP tipado para a API do backend
+    format.ts      # formatação de datas
+    nav.ts         # links de navegação e redes sociais
+```
+
+## Design
+
+Identidade visual sofisticada e minimalista inspirada em clubes privados de
+golfe: preto/verde profundo com dourado como acento, tipografia serifada
+(Fraunces) para títulos e grotesca (Manrope) para texto, com uma mono
+(IBM Plex Mono) usada em rótulos e dados — remetendo a scorecards e
+cartões de sócio. O elemento assinatura recorrente é o "cartão de sócio"
+(`LedgerCard`), usado no hero, em benefícios e no agendamento.
