@@ -108,6 +108,17 @@ export interface GolfEvent {
   updated_at?: string;
 }
 
+export interface EventPartner {
+  id?: string;
+  event_id: string;
+  name: string;
+  logo_url: string;
+  website?: string;
+  tier?: string;
+  display_order?: number;
+  created_at?: string;
+}
+
 export interface GalleryPhoto {
   id?: string;
   event_id?: string | null;

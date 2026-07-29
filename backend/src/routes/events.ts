@@ -9,13 +9,17 @@ import {
   updateEvent,
   deleteEvent,
 } from '../controllers/eventsController';
+import eventPartnersRouter from './eventPartners';
 
 const router = Router();
 
 // GET /events — público, paginado, filtro opcional por status
 router.get('/', validateQuery(listEventsQuerySchema), listEvents);
 
-// GET /events/:slug — público
+// /events/:eventId/partners/* — administrativo (CRUD dos parceiros confirmados do evento)
+router.use('/:eventId/partners', eventPartnersRouter);
+
+// GET /events/:slug — público (já retorna os parceiros confirmados embutidos, ver README)
 router.get('/:slug', getEventBySlug);
 
 // POST /events — administrativo

@@ -48,10 +48,11 @@ Variáveis de ambiente (ver `.env.example`):
 
 ### Banco de dados
 
-O schema SQL fica em `supabase/migrations/0001_init.sql`. Aplique no
-projeto Supabase via Supabase CLI (`supabase db push`) ou colando o
-conteúdo no SQL Editor do painel. Crie também um bucket de Storage
-**público para leitura** chamado `gallery` (ou o nome definido em
+O schema SQL fica em `supabase/migrations/` (`0001_init.sql`,
+`0002_event_partners.sql`, aplicados nessa ordem). Aplique no projeto
+Supabase via Supabase CLI (`supabase db push`) ou colando o conteúdo de
+cada arquivo, em ordem, no SQL Editor do painel. Crie também um bucket de
+Storage **público para leitura** chamado `gallery` (ou o nome definido em
 `SUPABASE_GALLERY_BUCKET`) para as fotos.
 
 ### Autenticação administrativa
@@ -132,10 +133,53 @@ status do horário (`open` → `booked`) para evitar reservas duplicadas.
 | Método | Rota | Acesso | Descrição |
 | --- | --- | --- | --- |
 | GET | `/events` | público | Lista eventos (paginado, `?status=`) |
-| GET | `/events/:slug` | público | Detalha evento pelo slug |
+| GET | `/events/:slug` | público | Detalha evento pelo slug — já inclui `partners` (ver abaixo) |
 | POST | `/events` | admin | Cria evento |
 | PATCH | `/events/:id` | admin | Atualiza evento |
 | DELETE | `/events/:id` | admin | Remove evento |
+
+#### Parceiros confirmados do evento (`/events/:eventId/partners`)
+
+Lista curada dos parceiros/patrocinadores **já confirmados** de um evento,
+para exibição pública na página do evento — diferente de `/sponsorships`,
+que é o pipeline de *candidatura* a patrocínio (ainda não aprovada).
+
+**Decisão de design:** não criamos um `GET /events/:eventId/partners`
+público separado. `GET /events/:slug` já retorna os parceiros embutidos no
+campo `partners` (mesmo padrão já usado no projeto para dados relacionados:
+`blog_posts` embute `blog_categories`, `meeting_bookings` embute
+`meeting_slots`). Isso evita uma segunda chamada HTTP no front só para
+montar a página do evento. O CRUD abaixo é 100% administrativo.
+
+| Método | Rota | Acesso | Descrição |
+| --- | --- | --- | --- |
+| GET | `/events/:eventId/partners` | admin | Lista todos os parceiros do evento |
+| POST | `/events/:eventId/partners` | admin | Cria parceiro confirmado |
+| PATCH | `/events/:eventId/partners/:id` | admin | Atualiza parceiro |
+| DELETE | `/events/:eventId/partners/:id` | admin | Remove parceiro |
+
+Shape de `partners` dentro de `GET /events/:slug`, ordenado por
+`display_order` crescente:
+
+```json
+{
+  "id": "…",
+  "title": "…",
+  "slug": "…",
+  "partners": [
+    {
+      "id": "…",
+      "event_id": "…",
+      "name": "Empresa X",
+      "logo_url": "https://…",
+      "website": "https://…",
+      "tier": "gold",
+      "display_order": 0,
+      "created_at": "2026-07-29T…"
+    }
+  ]
+}
+```
 
 ### Galeria de fotos (`/gallery`)
 

@@ -29,7 +29,15 @@ export async function listEvents(req: Request, res: Response) {
 export async function getEventBySlug(req: Request, res: Response) {
   const { slug } = req.params;
 
-  const { data, error } = await supabase.from('events').select('*').eq('slug', slug).maybeSingle();
+  // Parceiros confirmados vêm embutidos no mesmo payload (mesmo padrão já
+  // usado para blog_posts -> blog_categories e meeting_bookings -> meeting_slots),
+  // ordenados pela ordem de exibição definida pelo admin.
+  const { data, error } = await supabase
+    .from('events')
+    .select('*, partners:event_partners(*)')
+    .eq('slug', slug)
+    .order('display_order', { referencedTable: 'partners', ascending: true })
+    .maybeSingle();
 
   if (error) return sendInternalError(res, 'Erro ao buscar evento', error);
   if (!data) return res.status(404).json({ title: 'Evento não encontrado', status: 404 });
