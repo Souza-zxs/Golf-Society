@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { BlogPost } from "@/lib/api";
 import { formatPublishedDate } from "@/lib/format";
@@ -15,7 +16,13 @@ export function BlogPostCard({ post }: { post: BlogPost }) {
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center">
-            <span className="font-display text-4xl italic text-stone/40">SSG</span>
+            <Image
+              src="/brand/logo-outline.png"
+              alt=""
+              width={64}
+              height={81}
+              className="h-16 w-auto opacity-30"
+            />
           </div>
         )}
       </div>
