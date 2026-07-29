@@ -7,8 +7,9 @@ import { EventCard } from "@/components/content/event-card";
 import { BlogPostCard } from "@/components/content/blog-post-card";
 import { EmptyState } from "@/components/content/empty-state";
 import { Reveal } from "@/components/motion/reveal";
-import { LineDraw } from "@/components/motion/line-draw";
 import { ParallaxLayer } from "@/components/motion/parallax-layer";
+import { ContourField } from "@/components/motion/contour-field";
+import { PillarTabs } from "@/components/content/pillar-tabs";
 import { api, BlogPost, SsgEvent } from "@/lib/api";
 
 const PILLARS = [
@@ -56,17 +57,8 @@ export default async function Home() {
   return (
     <>
       <section className="relative overflow-hidden bg-gradient-to-b from-ink via-ink to-green-deep pb-24 pt-20 sm:pt-28">
-        <ParallaxLayer
-          ratio={0.06}
-          className="pointer-events-none absolute inset-0 opacity-[0.05]"
-        >
-          <div
-            className="absolute inset-0"
-            style={{
-              backgroundImage:
-                "repeating-linear-gradient(90deg, transparent, transparent 79px, var(--color-gold-soft) 79px, var(--color-gold-soft) 80px)",
-            }}
-          />
+        <ParallaxLayer ratio={0.06} className="pointer-events-none absolute inset-0">
+          <ContourField className="h-full w-full" />
         </ParallaxLayer>
         <Container className="relative grid gap-16 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
           <div>
@@ -112,30 +104,57 @@ export default async function Home() {
         </Container>
       </section>
 
-      <section className="bg-ivory py-24 sm:py-28">
-        <Container>
-          <Reveal>
-            <p className="font-display max-w-4xl text-3xl leading-[1.35] tracking-tight text-ink sm:text-4xl">
-              Toda grande parceria começa com uma conversa fora do escritório. Criamos o ambiente —
-              <em className="italic text-gold"> exclusivo, deliberado, sem pressa</em> — para que essa conversa
-              aconteça entre as pessoas certas.
-            </p>
+      <section className="relative flex min-h-screen items-center overflow-hidden bg-gradient-to-b from-green-deep via-green to-green-deep py-24">
+        <ParallaxLayer ratio={0.05} className="pointer-events-none absolute inset-0">
+          <ContourField className="h-full w-full" />
+        </ParallaxLayer>
+
+        <span
+          aria-hidden
+          className="font-display pointer-events-none absolute -top-16 left-1/2 -translate-x-1/2 select-none text-[26rem] italic leading-none text-gold-soft/[0.06] sm:text-[34rem]"
+        >
+          &ldquo;
+        </span>
+
+        <Container className="relative">
+          <Reveal className="flex justify-center">
+            <Eyebrow>Manifesto</Eyebrow>
+          </Reveal>
+
+          <div className="mx-auto mt-10 max-w-3xl text-center">
+            <Reveal delay={100}>
+              <p className="font-display text-3xl leading-[1.4] tracking-tight text-ivory sm:text-4xl lg:text-5xl">
+                Toda grande parceria começa com uma conversa fora do escritório.
+              </p>
+            </Reveal>
+            <Reveal delay={220}>
+              <p className="font-display mt-6 text-3xl italic leading-[1.4] tracking-tight text-gold sm:text-4xl lg:text-5xl">
+                Criamos o ambiente exclusivo, deliberado, sem pressa —
+              </p>
+            </Reveal>
+            <Reveal delay={340}>
+              <p className="font-display mt-6 text-3xl leading-[1.4] tracking-tight text-ivory sm:text-4xl lg:text-5xl">
+                para que essa conversa aconteça entre as pessoas certas.
+              </p>
+            </Reveal>
+          </div>
+
+          <Reveal delay={460} className="mt-14 flex justify-center">
+            <span className="font-data text-[11px] uppercase tracking-[0.3em] text-mist">
+              — Sellers Society Golf
+            </span>
           </Reveal>
         </Container>
       </section>
 
       <section className="bg-ink py-24 sm:py-28">
         <Container>
-          <div className="grid gap-x-10 gap-y-14 sm:grid-cols-3">
-            {PILLARS.map((pillar, index) => (
-              <Reveal key={pillar.label} delay={index * 120} className="pt-6">
-                <LineDraw tone="dark" className="mb-6" />
-                <Eyebrow>{pillar.label}</Eyebrow>
-                <h3 className="font-display mt-4 text-2xl text-ivory">{pillar.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-mist">{pillar.description}</p>
-              </Reveal>
-            ))}
-          </div>
+          <Reveal>
+            <Eyebrow>Como Funciona</Eyebrow>
+          </Reveal>
+          <Reveal delay={100} className="mt-10">
+            <PillarTabs pillars={PILLARS} />
+          </Reveal>
         </Container>
       </section>
 
