@@ -4,7 +4,7 @@ import { Eyebrow } from "@/components/ui/eyebrow";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { LinkButton } from "@/components/ui/button";
 import { Reveal } from "@/components/motion/reveal";
-import { LineDraw } from "@/components/motion/line-draw";
+import { IndexCard } from "@/components/content/index-card";
 
 export const metadata: Metadata = {
   title: "O Conceito",
@@ -13,14 +13,17 @@ export const metadata: Metadata = {
 
 const REASONS = [
   {
+    index: "01",
     title: "Quatro horas sem interrupção",
     text: "Uma rodada dura o suficiente para uma conversa de verdade acontecer — sem notificação, sem reunião marcada em cima, sem plateia. É tempo que ninguém mais está oferecendo.",
   },
   {
+    index: "02",
     title: "O jogo revela o caráter",
     text: "Como alguém lida com um mau tacada, honra as próprias regras e trata quem carrega o taco diz mais sobre um sócio em potencial do que qualquer reunião de diretoria.",
   },
   {
+    index: "03",
     title: "Ambiente, não evento",
     text: "Trocamos o salão de hotel pelo campo. O relacionamento nasce do ambiente compartilhado, não do crachá — e por isso dura além do dia do encontro.",
   },
@@ -61,12 +64,10 @@ export default function ConceitoPage() {
           <Reveal>
             <SectionHeading eyebrow="Por que golfe" title="A vantagem que o escritório não tem" tone="light" />
           </Reveal>
-          <div className="mt-14 grid gap-x-10 gap-y-12 sm:grid-cols-3">
-            {REASONS.map((reason, index) => (
-              <Reveal key={reason.title} delay={index * 120}>
-                <LineDraw tone="light" className="mb-6" />
-                <h3 className="font-display text-2xl text-ink">{reason.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-stone">{reason.text}</p>
+          <div className="mt-14 grid gap-6 sm:grid-cols-3">
+            {REASONS.map((reason, i) => (
+              <Reveal key={reason.title} delay={i * 120}>
+                <IndexCard index={reason.index} title={reason.title} description={reason.text} tone="light" />
               </Reveal>
             ))}
           </div>

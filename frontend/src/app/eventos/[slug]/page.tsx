@@ -6,6 +6,7 @@ import { SectionHeading } from "@/components/ui/section-heading";
 import { LedgerCard, LedgerRow } from "@/components/ui/ledger-card";
 import { LinkButton } from "@/components/ui/button";
 import { PartnersLedger } from "@/components/content/partners-ledger";
+import { PhotoGallery } from "@/components/content/photo-gallery";
 import { Reveal } from "@/components/motion/reveal";
 import { EVENT_STATUS_LABEL, formatEventDate } from "@/lib/format";
 import { api, ApiError, GalleryPhoto, SsgEvent } from "@/lib/api";
@@ -49,8 +50,19 @@ export default async function EventoDetailPage({ params }: { params: Promise<{ s
 
   return (
     <>
-      <section className="bg-ink py-20 sm:py-28">
-        <Container className="grid gap-16 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
+      <section className="relative overflow-hidden bg-ink py-20 sm:py-28">
+        {event.cover_image_url ? (
+          <>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={event.cover_image_url}
+              alt=""
+              className="absolute inset-0 h-full w-full object-cover opacity-35"
+            />
+            <div className="absolute inset-0 bg-linear-to-t from-ink via-ink/90 to-ink/50" />
+          </>
+        ) : null}
+        <Container className="relative grid gap-16 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
           <div>
             <Reveal>
               <Eyebrow>{EVENT_STATUS_LABEL[event.status]}</Eyebrow>
@@ -105,17 +117,8 @@ export default async function EventoDetailPage({ params }: { params: Promise<{ s
               <Eyebrow tone="light">Galeria</Eyebrow>
               <h2 className="font-display mt-4 text-3xl tracking-tight text-ink">Registros deste encontro</h2>
             </Reveal>
-            <div className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
-              {photos.map((photo, index) => (
-                <Reveal key={photo.id} delay={(index % 4) * 80}>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={photo.image_url}
-                    alt={photo.title ?? ""}
-                    className="aspect-square w-full object-cover transition-transform duration-500 motion-safe:hover:scale-[1.03]"
-                  />
-                </Reveal>
-              ))}
+            <div className="mt-10">
+              <PhotoGallery photos={photos} />
             </div>
           </Container>
         </section>

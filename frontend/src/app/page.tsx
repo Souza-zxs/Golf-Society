@@ -15,21 +15,39 @@ import { api, BlogPost, SsgEvent } from "@/lib/api";
 const PILLARS = [
   {
     label: "Eventos Exclusivos",
+    index: "01",
     title: "Golfe como palco de negócio",
     description:
       "Encontros em campos selecionados de São Paulo, com formato pensado para gerar conversa real entre decisores — não crachás e coquetel.",
+    points: [
+      "Rodadas em campos parceiros, grupos pequenos e formato fixo",
+      "Agenda por convite, sem inscrição aberta ao público",
+      "Vagas limitadas a cada edição para manter a qualidade da conversa",
+    ],
   },
   {
     label: "Comunidade",
+    index: "02",
     title: "Pares, não plateia",
     description:
       "Um círculo fechado de empresários, CEOs e executivos que se conhecem pelo nome, indicam negócios e se cobram mutuamente por resultado.",
+    points: [
+      "Admissão avaliada por comitê, não por pagamento de mensalidade",
+      "Rede ativa entre rodadas, com indicações e apresentações diretas",
+      "Perfil concentrado em decisores — sócios, CEOs e investidores",
+    ],
   },
   {
     label: "Patrocínio",
+    index: "03",
     title: "Marcas que pertencem ao clube",
     description:
       "Parcerias seletivas com marcas que compartilham o padrão da comunidade — presença construída dentro da experiência, não em banner.",
+    points: [
+      "Número reduzido de patrocinadores por edição, sem pulverização",
+      "Presença integrada à experiência do encontro, não só logo estampado",
+      "Acesso direto ao público de decisores presente em cada rodada",
+    ],
   },
 ];
 
@@ -56,11 +74,11 @@ export default async function Home() {
 
   return (
     <>
-      <section className="relative overflow-hidden bg-gradient-to-b from-ink via-ink to-green-deep pb-24 pt-20 sm:pt-28">
+      <section className="relative overflow-hidden bg-linear-to-b from-green-deep to-green pb-24 pt-20 sm:pt-28">
         <ParallaxLayer ratio={0.06} className="pointer-events-none absolute inset-0">
           <ContourField className="h-full w-full" />
         </ParallaxLayer>
-        <Container className="relative grid gap-16 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
+        <Container className="relative grid gap-16 lg:grid-cols-[1fr_1fr] lg:items-end">
           <div>
             <Reveal>
               <Eyebrow>São Paulo · Por Convite</Eyebrow>
@@ -89,22 +107,23 @@ export default async function Home() {
             </Reveal>
           </div>
 
-          <LedgerCard tone="dark" delay={180}>
-            <div className="border-b border-gold-soft/15 px-5 py-4">
-              <span className="font-data text-[10px] uppercase tracking-[0.24em] text-gold-soft">
+          <LedgerCard tone="dark" delay={180} className="lg:max-w-lg lg:justify-self-end">
+            <div className="flex items-center justify-between border-b border-gold-soft/15 px-7 py-5">
+              <span className="font-data text-[11px] uppercase tracking-[0.24em] text-gold-soft">
                 Cartão de Sócio
               </span>
+              <span className="font-display text-lg italic text-gold-soft/40">SSG</span>
             </div>
-            <LedgerRow label="Fundação" value="2024" />
-            <LedgerRow label="Sede" value="São Paulo, SP" />
-            <LedgerRow label="Acesso" value="Somente Convite" />
-            <LedgerRow label="Perfil" value="CEOs · Executivos · Investidores" />
-            <LedgerRow label="Expansão" value="Brasil, em fases" />
+            <LedgerRow size="lg" label="Fundação" value="2024" />
+            <LedgerRow size="lg" label="Sede" value="São Paulo, SP" />
+            <LedgerRow size="lg" label="Acesso" value="Somente Convite" />
+            <LedgerRow size="lg" label="Perfil" value="CEOs · Executivos · Investidores" />
+            <LedgerRow size="lg" label="Expansão" value="Brasil, em fases" />
           </LedgerCard>
         </Container>
       </section>
 
-      <section className="relative flex min-h-screen items-center overflow-hidden bg-gradient-to-b from-green-deep via-green to-green-deep py-24">
+      <section className="relative flex min-h-screen items-center overflow-hidden bg-linear-to-b from-green to-ink py-24">
         <ParallaxLayer ratio={0.05} className="pointer-events-none absolute inset-0">
           <ContourField className="h-full w-full" />
         </ParallaxLayer>
@@ -121,25 +140,22 @@ export default async function Home() {
             <Eyebrow>Manifesto</Eyebrow>
           </Reveal>
 
-          <div className="mx-auto mt-10 max-w-3xl text-center">
+          <div className="mx-auto mt-10 max-w-2xl text-center">
             <Reveal delay={100}>
-              <p className="font-display text-3xl leading-[1.4] tracking-tight text-ivory sm:text-4xl lg:text-5xl">
+              <p className="font-display text-xl leading-normal tracking-tight text-mist sm:text-2xl">
                 Toda grande parceria começa com uma conversa fora do escritório.
               </p>
             </Reveal>
-            <Reveal delay={220}>
-              <p className="font-display mt-6 text-3xl italic leading-[1.4] tracking-tight text-gold sm:text-4xl lg:text-5xl">
-                Criamos o ambiente exclusivo, deliberado, sem pressa —
-              </p>
-            </Reveal>
-            <Reveal delay={340}>
-              <p className="font-display mt-6 text-3xl leading-[1.4] tracking-tight text-ivory sm:text-4xl lg:text-5xl">
+            <Reveal delay={240}>
+              <p className="font-display mt-8 text-3xl leading-[1.35] tracking-tight text-ivory sm:text-4xl lg:text-5xl">
+                Criamos o ambiente <em className="italic text-gold">exclusivo, deliberado, sem pressa</em> —
                 para que essa conversa aconteça entre as pessoas certas.
               </p>
             </Reveal>
           </div>
 
-          <Reveal delay={460} className="mt-14 flex justify-center">
+          <Reveal delay={420} className="mt-14 flex flex-col items-center gap-5">
+            <span className="h-px w-12 bg-gold-soft/30" aria-hidden />
             <span className="font-data text-[11px] uppercase tracking-[0.3em] text-mist">
               — Sellers Society Golf
             </span>
@@ -147,8 +163,11 @@ export default async function Home() {
         </Container>
       </section>
 
-      <section className="bg-ink py-24 sm:py-28">
-        <Container>
+      <section className="relative overflow-hidden bg-linear-to-b from-ink to-green py-24 sm:py-28">
+        <ParallaxLayer ratio={0.04} className="pointer-events-none absolute inset-0 opacity-40">
+          <ContourField className="h-full w-full" />
+        </ParallaxLayer>
+        <Container className="relative">
           <Reveal>
             <Eyebrow>Como Funciona</Eyebrow>
           </Reveal>
@@ -158,34 +177,40 @@ export default async function Home() {
         </Container>
       </section>
 
-      <section className="bg-ivory py-24 sm:py-28">
+      <section className="bg-green py-24 sm:py-28">
         <Container>
           <Reveal className="flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
-            <SectionHeading eyebrow="Agenda" title="Próximos Encontros" tone="light" />
-            <LinkButton href="/eventos" variant="outline-light" className="shrink-0">
+            <SectionHeading eyebrow="Agenda" title="Próximos Encontros" tone="dark" />
+            <LinkButton href="/eventos" variant="outline-dark" className="shrink-0">
               Ver Todos os Eventos
             </LinkButton>
           </Reveal>
 
-          <div className="mt-12">
-            {events.length > 0 ? (
-              events.map((event, index) => (
-                <Reveal key={event.id} delay={index * 90}>
-                  <EventCard event={event} />
-                </Reveal>
-              ))
-            ) : (
-              <EmptyState
-                title="Agenda em preparação"
-                description="Os próximos encontros estão sendo confirmados. Solicite participação para ser avisado em primeira mão."
-              />
-            )}
-          </div>
+          <LedgerCard tone="light" delay={100} className="mt-12 shadow-[0_30px_60px_-28px_rgba(0,0,0,0.5)]">
+            <div className="flex items-center justify-between border-b border-ink/10 px-6 py-4 sm:px-8">
+              <span className="font-data text-[10px] uppercase tracking-[0.24em] text-stone">
+                Calendário · Sellers Society Golf
+              </span>
+              <span className="font-data text-[10px] uppercase tracking-[0.2em] text-gold">
+                {events.length > 0 ? `${events.length} confirmados` : "Em aberto"}
+              </span>
+            </div>
+            <div className="px-6 py-2 sm:px-8">
+              {events.length > 0 ? (
+                events.map((event) => <EventCard key={event.id} event={event} />)
+              ) : (
+                <EmptyState
+                  title="Agenda em preparação"
+                  description="Os próximos encontros estão sendo confirmados. Solicite participação para ser avisado em primeira mão."
+                />
+              )}
+            </div>
+          </LedgerCard>
         </Container>
       </section>
 
       {posts.length > 0 ? (
-        <section className="bg-ivory-2 py-24 sm:py-28">
+        <section className="bg-[linear-gradient(to_bottom,var(--color-green)_0%,var(--color-ivory)_12%,var(--color-ivory)_88%,var(--color-green)_100%)] py-24 sm:py-28">
           <Container>
             <Reveal className="flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
               <SectionHeading eyebrow="Conteúdo" title="Do Fairway aos Negócios" tone="light" />
@@ -204,8 +229,11 @@ export default async function Home() {
         </section>
       ) : null}
 
-      <section className="bg-green py-24 sm:py-28">
-        <Container className="flex flex-col items-start gap-8 lg:flex-row lg:items-center lg:justify-between">
+      <section className="relative overflow-hidden bg-linear-to-b from-green to-ink py-24 sm:py-28">
+        <ParallaxLayer ratio={0.04} className="pointer-events-none absolute inset-0 opacity-40">
+          <ContourField className="h-full w-full" />
+        </ParallaxLayer>
+        <Container className="relative flex flex-col items-start gap-8 lg:flex-row lg:items-center lg:justify-between">
           <Reveal className="max-w-xl">
             <Eyebrow>Participe</Eyebrow>
             <h2 className="font-display mt-5 text-4xl leading-[1.1] tracking-tight text-ivory sm:text-5xl">

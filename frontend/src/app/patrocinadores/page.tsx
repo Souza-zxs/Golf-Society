@@ -4,7 +4,7 @@ import { Eyebrow } from "@/components/ui/eyebrow";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { LinkButton } from "@/components/ui/button";
 import { Reveal } from "@/components/motion/reveal";
-import { LineDraw } from "@/components/motion/line-draw";
+import { IndexCard } from "@/components/content/index-card";
 
 export const metadata: Metadata = {
   title: "Patrocinadores",
@@ -13,14 +13,17 @@ export const metadata: Metadata = {
 
 const TIERS = [
   {
+    index: "01",
     name: "Patrocinador Master",
     text: "Presença de marca em toda a temporada — encontros mensais, torneio trimestral e conteúdo editorial. Um único patrocinador por segmento.",
   },
   {
+    index: "02",
     name: "Patrocinador Torneio",
     text: "Naming e ativação de marca em um torneio trimestral específico, com acesso direto aos participantes no dia.",
   },
   {
+    index: "03",
     name: "Patrocinador Apoiador",
     text: "Presença pontual em um encontro mensal — formato de entrada para marcas que querem conhecer a comunidade.",
   },
@@ -54,12 +57,10 @@ export default function PatrocinadoresPage() {
           <Reveal>
             <SectionHeading eyebrow="Modalidades" title="Três formas de estar presente" tone="light" />
           </Reveal>
-          <div className="mt-14 grid gap-x-10 gap-y-12 sm:grid-cols-3">
-            {TIERS.map((tier, index) => (
-              <Reveal key={tier.name} delay={index * 120}>
-                <LineDraw tone="light" className="mb-6" />
-                <h3 className="font-display text-2xl text-ink">{tier.name}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-stone">{tier.text}</p>
+          <div className="mt-14 grid gap-6 sm:grid-cols-3">
+            {TIERS.map((tier, i) => (
+              <Reveal key={tier.name} delay={i * 120}>
+                <IndexCard index={tier.index} title={tier.name} description={tier.text} tone="light" />
               </Reveal>
             ))}
           </div>
