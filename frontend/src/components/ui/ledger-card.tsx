@@ -75,7 +75,7 @@ export function LedgerRow({
     <div
       className={`flex items-baseline justify-between gap-6 border-b last:border-b-0 ${
         tone === "dark" ? "border-gold-soft/15" : "border-ink/10"
-      } ${size === "lg" ? "px-7 py-5" : "px-5 py-3.5"}`}
+      } ${size === "lg" ? "px-9 py-6" : "px-7 py-4.5"}`}
     >
       <span
         className={`font-data uppercase tracking-[0.2em] ${size === "lg" ? "text-[11px]" : "text-[10px]"} ${

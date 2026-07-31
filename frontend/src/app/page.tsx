@@ -1,3 +1,5 @@
+import Image from "next/image";
+import manifestoFairway from "../../public/manifesto-fairway.jpg";
 import { Container } from "@/components/ui/container";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { LinkButton } from "@/components/ui/button";
@@ -10,6 +12,7 @@ import { Reveal } from "@/components/motion/reveal";
 import { ParallaxLayer } from "@/components/motion/parallax-layer";
 import { ContourField } from "@/components/motion/contour-field";
 import { PillarTabs } from "@/components/content/pillar-tabs";
+import { SectionDivider } from "@/components/ui/section-divider";
 import { api, BlogPost, SsgEvent } from "@/lib/api";
 
 const PILLARS = [
@@ -123,8 +126,29 @@ export default async function Home() {
         </Container>
       </section>
 
-      <section className="relative flex min-h-screen items-center overflow-hidden bg-linear-to-b from-green to-ink py-24">
-        <ParallaxLayer ratio={0.05} className="pointer-events-none absolute inset-0">
+      <section className="relative flex min-h-screen items-center overflow-hidden bg-ink py-24">
+        <ParallaxLayer ratio={0.05} className="pointer-events-none absolute -inset-y-12 inset-x-0">
+          <Image
+            src={manifestoFairway}
+            alt="Fairway ao entardecer, com a bandeira da Sellers Society Golf junto ao lago"
+            fill
+            sizes="100vw"
+            priority={false}
+            className="object-cover object-[center_35%] brightness-[.62] contrast-[1.08] saturate-[1.05]"
+          />
+        </ParallaxLayer>
+
+        {/* Vinheta: escurece as bordas e casa as emendas com o verde/ink das seções vizinhas */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_28%,rgba(11,31,26,0.6)_68%,rgba(14,18,16,0.93)_100%)]"
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 bg-linear-to-b from-green via-transparent to-ink"
+        />
+
+        <ParallaxLayer ratio={0.05} className="pointer-events-none absolute inset-0 opacity-70">
           <ContourField className="h-full w-full" />
         </ParallaxLayer>
 
@@ -177,6 +201,8 @@ export default async function Home() {
         </Container>
       </section>
 
+      <SectionDivider />
+
       <section className="bg-green py-24 sm:py-28">
         <Container>
           <Reveal className="flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
@@ -209,6 +235,8 @@ export default async function Home() {
         </Container>
       </section>
 
+      <SectionDivider />
+
       {posts.length > 0 ? (
         <section className="bg-[linear-gradient(to_bottom,var(--color-green)_0%,var(--color-ivory)_12%,var(--color-ivory)_88%,var(--color-green)_100%)] py-24 sm:py-28">
           <Container>
@@ -228,6 +256,8 @@ export default async function Home() {
           </Container>
         </section>
       ) : null}
+
+      {posts.length > 0 ? <SectionDivider /> : null}
 
       <section className="relative overflow-hidden bg-linear-to-b from-green to-ink py-24 sm:py-28">
         <ParallaxLayer ratio={0.04} className="pointer-events-none absolute inset-0 opacity-40">

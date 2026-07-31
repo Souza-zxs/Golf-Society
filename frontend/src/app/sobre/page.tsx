@@ -5,6 +5,11 @@ import { SectionHeading } from "@/components/ui/section-heading";
 import { LedgerCard, LedgerRow } from "@/components/ui/ledger-card";
 import { Reveal } from "@/components/motion/reveal";
 import { LineDraw } from "@/components/motion/line-draw";
+import { ParallaxLayer } from "@/components/motion/parallax-layer";
+import { ContourField } from "@/components/motion/contour-field";
+import { SectionDivider } from "@/components/ui/section-divider";
+
+const CARD_SHADOW = "shadow-[0_30px_60px_-28px_rgba(0,0,0,0.5)]";
 
 export const metadata: Metadata = {
   title: "Sobre",
@@ -33,8 +38,11 @@ const VALUES = [
 export default function SobrePage() {
   return (
     <>
-      <section className="bg-ink py-20 sm:py-28">
-        <Container className="grid gap-16 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
+      <section className="relative overflow-hidden bg-linear-to-b from-green-deep to-green py-20 sm:py-28">
+        <ParallaxLayer ratio={0.06} className="pointer-events-none absolute inset-0">
+          <ContourField className="h-full w-full" />
+        </ParallaxLayer>
+        <Container className="relative grid gap-16 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
           <div>
             <Reveal>
               <Eyebrow>Sobre</Eyebrow>
@@ -52,20 +60,23 @@ export default function SobrePage() {
               </p>
             </Reveal>
           </div>
-          <LedgerCard tone="dark" delay={150}>
-            <LedgerRow label="Segmento" value="Networking Empresarial" />
-            <LedgerRow label="Plataforma" value="Golfe" />
-            <LedgerRow label="Praça Inicial" value="São Paulo" />
-            <LedgerRow label="Modelo" value="Membros + Patrocinadores" />
+          <LedgerCard tone="light" delay={150} className={CARD_SHADOW}>
+            <LedgerRow label="Segmento" value="Networking Empresarial" tone="light" />
+            <LedgerRow label="Plataforma" value="Golfe" tone="light" />
+            <LedgerRow label="Praça Inicial" value="São Paulo" tone="light" />
+            <LedgerRow label="Modelo" value="Membros + Patrocinadores" tone="light" />
           </LedgerCard>
         </Container>
       </section>
 
-      <section className="bg-ivory py-24 sm:py-28">
-        <Container className="grid gap-16 lg:grid-cols-2">
+      <section className="relative overflow-hidden bg-green py-24 sm:py-28">
+        <ParallaxLayer ratio={0.04} className="pointer-events-none absolute inset-0 opacity-40">
+          <ContourField className="h-full w-full" />
+        </ParallaxLayer>
+        <Container className="relative grid gap-16 lg:grid-cols-2">
           <Reveal>
-            <SectionHeading eyebrow="Missão" title="Transformar tempo de lazer em capital de relacionamento" tone="light" />
-            <p className="mt-6 text-base leading-relaxed text-stone">
+            <SectionHeading eyebrow="Missão" title="Transformar tempo de lazer em capital de relacionamento" tone="dark" />
+            <p className="mt-6 text-base leading-relaxed text-mist">
               Acreditamos que negócios sérios se constroem em ambientes descontraídos, entre pessoas que se
               respeitam. Nosso papel é montar esse ambiente com o rigor de uma operação de negócios: seleção
               criteriosa de membros, campos de padrão internacional e uma agenda desenhada para gerar conexão
@@ -73,8 +84,8 @@ export default function SobrePage() {
             </p>
           </Reveal>
           <Reveal delay={120}>
-            <SectionHeading eyebrow="Visão" title="A referência de networking empresarial no Brasil" tone="light" />
-            <p className="mt-6 text-base leading-relaxed text-stone">
+            <SectionHeading eyebrow="Visão" title="A referência de networking empresarial no Brasil" tone="dark" />
+            <p className="mt-6 text-base leading-relaxed text-mist">
               Começamos em São Paulo porque é aqui que a maior concentração de decisores do país joga golfe.
               A expansão para outras praças brasileiras segue o mesmo princípio de todo o clube: crescer sem
               diluir o padrão.
@@ -83,8 +94,13 @@ export default function SobrePage() {
         </Container>
       </section>
 
-      <section className="bg-green py-24 sm:py-28">
-        <Container>
+      <SectionDivider />
+
+      <section className="relative overflow-hidden bg-green py-24 sm:py-28">
+        <ParallaxLayer ratio={0.04} className="pointer-events-none absolute inset-0 opacity-40">
+          <ContourField className="h-full w-full" />
+        </ParallaxLayer>
+        <Container className="relative">
           <Reveal>
             <SectionHeading eyebrow="Valores" title="O padrão por trás de cada convite" tone="dark" />
           </Reveal>

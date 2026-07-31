@@ -3,17 +3,19 @@ export function IndexCard({
   title,
   description,
   tone = "light",
+  className = "",
 }: {
   index: string;
   title: string;
   description: string;
   tone?: "dark" | "light";
+  className?: string;
 }) {
   return (
     <div
-      className={`relative overflow-hidden border p-7 ${
-        tone === "dark" ? "border-gold-soft/10 bg-ink-2/50" : "border-ink/10 bg-ivory-2"
-      }`}
+      className={`relative flex h-full flex-col overflow-hidden border p-7 ${
+        tone === "dark" ? "border-gold-soft/10 bg-ink-2/50" : "border-ink/15 bg-ivory-2"
+      } ${className}`}
     >
       <span
         aria-hidden

@@ -1,10 +1,18 @@
 import type { Metadata } from "next";
+import Image from "next/image";
+import conceitoFairway from "../../../public/conceito-fairway.jpg";
 import { Container } from "@/components/ui/container";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { LinkButton } from "@/components/ui/button";
+import { LedgerCard, LedgerRow } from "@/components/ui/ledger-card";
 import { Reveal } from "@/components/motion/reveal";
+import { ParallaxLayer } from "@/components/motion/parallax-layer";
+import { ContourField } from "@/components/motion/contour-field";
 import { IndexCard } from "@/components/content/index-card";
+import { SectionDivider } from "@/components/ui/section-divider";
+
+const CARD_SHADOW = "shadow-[0_30px_60px_-28px_rgba(0,0,0,0.5)]";
 
 export const metadata: Metadata = {
   title: "O Conceito",
@@ -39,8 +47,27 @@ const FORMATS = [
 export default function ConceitoPage() {
   return (
     <>
-      <section className="bg-ink py-20 sm:py-28">
-        <Container>
+      <section className="relative overflow-hidden bg-ink py-20 sm:py-28">
+        <ParallaxLayer ratio={0.05} className="pointer-events-none absolute -inset-y-12 inset-x-0">
+          <Image
+            src={conceitoFairway}
+            alt="Fairway ondulado com bunkers e montanhas ao fundo, na luz dourada do entardecer"
+            fill
+            sizes="100vw"
+            priority
+            className="object-cover object-center brightness-[.55] contrast-[1.05] saturate-[1.05]"
+          />
+        </ParallaxLayer>
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_28%,rgba(11,31,26,0.6)_68%,rgba(14,18,16,0.93)_100%)]"
+        />
+        <div aria-hidden className="pointer-events-none absolute inset-0 bg-linear-to-b from-ink via-transparent to-ink" />
+        <ParallaxLayer ratio={0.05} className="pointer-events-none absolute inset-0 opacity-70">
+          <ContourField className="h-full w-full" />
+        </ParallaxLayer>
+
+        <Container className="relative">
           <Reveal>
             <Eyebrow>O Conceito</Eyebrow>
           </Reveal>
@@ -59,23 +86,37 @@ export default function ConceitoPage() {
         </Container>
       </section>
 
-      <section className="bg-ivory py-24 sm:py-28">
-        <Container>
+      <section className="relative overflow-hidden bg-linear-to-b from-ink to-green py-24 sm:py-28">
+        <ParallaxLayer ratio={0.04} className="pointer-events-none absolute inset-0 opacity-40">
+          <ContourField className="h-full w-full" />
+        </ParallaxLayer>
+        <Container className="relative">
           <Reveal>
-            <SectionHeading eyebrow="Por que golfe" title="A vantagem que o escritório não tem" tone="light" />
+            <SectionHeading eyebrow="Por que golfe" title="A vantagem que o escritório não tem" tone="dark" />
           </Reveal>
           <div className="mt-14 grid gap-6 sm:grid-cols-3">
             {REASONS.map((reason, i) => (
               <Reveal key={reason.title} delay={i * 120}>
-                <IndexCard index={reason.index} title={reason.title} description={reason.text} tone="light" />
+                <IndexCard
+                  index={reason.index}
+                  title={reason.title}
+                  description={reason.text}
+                  tone="light"
+                  className={CARD_SHADOW}
+                />
               </Reveal>
             ))}
           </div>
         </Container>
       </section>
 
-      <section className="bg-ink py-24 sm:py-28">
-        <Container className="grid gap-16 lg:grid-cols-[0.8fr_1.2fr]">
+      <SectionDivider />
+
+      <section className="relative overflow-hidden bg-green py-24 sm:py-28">
+        <ParallaxLayer ratio={0.04} className="pointer-events-none absolute inset-0 opacity-40">
+          <ContourField className="h-full w-full" />
+        </ParallaxLayer>
+        <Container className="relative grid gap-16 lg:grid-cols-[0.8fr_1.2fr]">
           <Reveal>
             <SectionHeading
               eyebrow="Como Funciona"
@@ -84,30 +125,27 @@ export default function ConceitoPage() {
               tone="dark"
             />
           </Reveal>
-          <Reveal delay={150} className="border border-gold-soft/25">
+          <LedgerCard tone="light" delay={150} className={CARD_SHADOW}>
             {FORMATS.map((item) => (
-              <div
-                key={item.label}
-                className="flex flex-col gap-1 border-b border-gold-soft/15 px-6 py-5 transition-colors duration-300 last:border-b-0 hover:bg-gold-soft/5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6"
-              >
-                <span className="font-data text-[11px] uppercase tracking-[0.2em] text-gold">
-                  {item.label}
-                </span>
-                <span className="text-sm text-mist sm:text-right">{item.value}</span>
-              </div>
+              <LedgerRow key={item.label} label={item.label} value={item.value} tone="light" size="lg" />
             ))}
-          </Reveal>
+          </LedgerCard>
         </Container>
       </section>
 
-      <section className="bg-ivory py-24 text-center sm:py-28">
-        <Container>
+      <SectionDivider />
+
+      <section className="relative overflow-hidden bg-green py-24 text-center sm:py-28">
+        <ParallaxLayer ratio={0.04} className="pointer-events-none absolute inset-0 opacity-40">
+          <ContourField className="h-full w-full" />
+        </ParallaxLayer>
+        <Container className="relative">
           <Reveal>
-            <p className="font-display mx-auto max-w-2xl text-3xl italic leading-snug tracking-tight text-ink sm:text-4xl">
+            <p className="font-display mx-auto max-w-2xl text-3xl italic leading-snug tracking-tight text-ivory sm:text-4xl">
               &ldquo;Não vendemos acesso a um campo. Vendemos acesso às pessoas certas, no momento certo.&rdquo;
             </p>
             <div className="mt-10 flex flex-wrap justify-center gap-4">
-              <LinkButton href="/beneficios" variant="outline-light">
+              <LinkButton href="/beneficios" variant="outline-dark">
                 Ver Benefícios para Membros
               </LinkButton>
               <LinkButton href="/seja-membro" variant="solid">

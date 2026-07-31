@@ -8,8 +8,13 @@ import { LinkButton } from "@/components/ui/button";
 import { PartnersLedger } from "@/components/content/partners-ledger";
 import { PhotoGallery } from "@/components/content/photo-gallery";
 import { Reveal } from "@/components/motion/reveal";
+import { ParallaxLayer } from "@/components/motion/parallax-layer";
+import { ContourField } from "@/components/motion/contour-field";
+import { SectionDivider } from "@/components/ui/section-divider";
 import { EVENT_STATUS_LABEL, formatEventDate } from "@/lib/format";
 import { api, ApiError, GalleryPhoto, SsgEvent } from "@/lib/api";
+
+const CARD_SHADOW = "shadow-[0_30px_60px_-28px_rgba(0,0,0,0.5)]";
 
 async function getEvent(slug: string): Promise<SsgEvent | null> {
   try {
@@ -50,7 +55,7 @@ export default async function EventoDetailPage({ params }: { params: Promise<{ s
 
   return (
     <>
-      <section className="relative overflow-hidden bg-ink py-20 sm:py-28">
+      <section className="relative overflow-hidden bg-linear-to-b from-green-deep to-green py-20 sm:py-28">
         {event.cover_image_url ? (
           <>
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -61,7 +66,11 @@ export default async function EventoDetailPage({ params }: { params: Promise<{ s
             />
             <div className="absolute inset-0 bg-linear-to-t from-ink via-ink/90 to-ink/50" />
           </>
-        ) : null}
+        ) : (
+          <ParallaxLayer ratio={0.06} className="pointer-events-none absolute inset-0">
+            <ContourField className="h-full w-full" />
+          </ParallaxLayer>
+        )}
         <Container className="relative grid gap-16 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
           <div>
             <Reveal>
@@ -84,41 +93,56 @@ export default async function EventoDetailPage({ params }: { params: Promise<{ s
             </Reveal>
           </div>
 
-          <LedgerCard tone="dark" delay={150}>
-            <LedgerRow label="Data" value={formatEventDate(event.event_date)} />
+          <LedgerCard tone="light" delay={150} className={CARD_SHADOW}>
+            <LedgerRow label="Data" value={formatEventDate(event.event_date)} tone="light" />
             {event.start_time ? (
               <LedgerRow
                 label="Horário"
                 value={event.end_time ? `${event.start_time.slice(0, 5)}–${event.end_time.slice(0, 5)}` : event.start_time.slice(0, 5)}
+                tone="light"
               />
             ) : null}
-            {event.location ? <LedgerRow label="Local" value={event.location} /> : null}
-            {event.address ? <LedgerRow label="Endereço" value={event.address} /> : null}
-            {event.max_attendees ? <LedgerRow label="Vagas" value={String(event.max_attendees)} /> : null}
+            {event.location ? <LedgerRow label="Local" value={event.location} tone="light" /> : null}
+            {event.address ? <LedgerRow label="Endereço" value={event.address} tone="light" /> : null}
+            {event.max_attendees ? <LedgerRow label="Vagas" value={String(event.max_attendees)} tone="light" /> : null}
           </LedgerCard>
         </Container>
       </section>
 
-      <section className="bg-ivory-2 py-20 sm:py-24">
-        <Container>
+      <section className="relative overflow-hidden bg-green py-20 sm:py-24">
+        <ParallaxLayer ratio={0.04} className="pointer-events-none absolute inset-0 opacity-40">
+          <ContourField className="h-full w-full" />
+        </ParallaxLayer>
+        <Container className="relative">
           <Reveal>
-            <SectionHeading eyebrow="Parceiros" title="Parceiros Confirmados" tone="light" />
+            <SectionHeading eyebrow="Parceiros" title="Parceiros Confirmados" tone="dark" />
           </Reveal>
           <div className="mt-10 max-w-2xl">
-            <PartnersLedger partners={partners} tone="light" />
+            <LedgerCard tone="light" interactive={false} className={CARD_SHADOW}>
+              <div className="p-1">
+                <PartnersLedger partners={partners} tone="light" />
+              </div>
+            </LedgerCard>
           </div>
         </Container>
       </section>
 
+      {photos.length > 0 ? <SectionDivider /> : null}
+
       {photos.length > 0 ? (
-        <section className="bg-ivory py-20 sm:py-24">
-          <Container>
+        <section className="relative overflow-hidden bg-green py-20 sm:py-24">
+          <ParallaxLayer ratio={0.04} className="pointer-events-none absolute inset-0 opacity-40">
+            <ContourField className="h-full w-full" />
+          </ParallaxLayer>
+          <Container className="relative">
             <Reveal>
-              <Eyebrow tone="light">Galeria</Eyebrow>
-              <h2 className="font-display mt-4 text-3xl tracking-tight text-ink">Registros deste encontro</h2>
+              <Eyebrow>Galeria</Eyebrow>
+              <h2 className="font-display mt-4 text-3xl tracking-tight text-ivory">Registros deste encontro</h2>
             </Reveal>
             <div className="mt-10">
-              <PhotoGallery photos={photos} />
+              <LedgerCard tone="light" interactive={false} className={`p-4 sm:p-6 ${CARD_SHADOW}`}>
+                <PhotoGallery photos={photos} />
+              </LedgerCard>
             </div>
           </Container>
         </section>

@@ -15,6 +15,21 @@ export function EventCard({ event }: { event: SsgEvent }) {
         </span>
       </div>
 
+      <div className="hidden aspect-4/3 w-28 shrink-0 overflow-hidden border border-ink/10 bg-ivory-2 transition-colors duration-300 group-hover:border-gold/40 sm:block">
+        {event.cover_image_url ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={event.cover_image_url}
+            alt=""
+            className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.06]"
+          />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center">
+            <span className="font-display text-2xl italic text-stone/40">SSG</span>
+          </div>
+        )}
+      </div>
+
       <div className="flex flex-1 flex-col gap-2">
         <span className="font-data text-[10px] uppercase tracking-[0.2em] text-stone">
           {EVENT_STATUS_LABEL[event.status]}
