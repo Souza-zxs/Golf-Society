@@ -5,6 +5,7 @@ import { Container } from "@/components/ui/container";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { formatPublishedDate } from "@/lib/format";
 import { Reveal } from "@/components/motion/reveal";
+import { ArticleBody } from "@/components/content/article-body";
 import { api, ApiError, BlogPost } from "@/lib/api";
 
 async function getPost(slug: string): Promise<BlogPost | null> {
@@ -63,13 +64,13 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
             <img
               src={post.cover_image_url}
               alt=""
-              className="mt-10 aspect-[16/9] w-full border border-ink/10 object-cover"
+              className="mt-10 aspect-video w-full border border-ink/10 object-cover"
             />
           </Reveal>
         ) : null}
 
-        <Reveal delay={240} className="mt-10 whitespace-pre-wrap text-base leading-[1.8] text-ink/85">
-          {post.content}
+        <Reveal delay={240} className="mt-10">
+          <ArticleBody content={post.content} />
         </Reveal>
       </Container>
     </article>

@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
 import { Container } from "@/components/ui/container";
 import { Eyebrow } from "@/components/ui/eyebrow";
+import { LedgerCard } from "@/components/ui/ledger-card";
 import { EventCard } from "@/components/content/event-card";
 import { EmptyState } from "@/components/content/empty-state";
 import { Reveal } from "@/components/motion/reveal";
+import { ParallaxLayer } from "@/components/motion/parallax-layer";
+import { ContourField } from "@/components/motion/contour-field";
 import { api } from "@/lib/api";
 
 export const metadata: Metadata = {
@@ -25,8 +28,11 @@ export default async function EventosPage() {
 
   return (
     <>
-      <section className="bg-ink py-20 sm:py-28">
-        <Container>
+      <section className="relative overflow-hidden bg-linear-to-b from-green-deep to-green py-20 sm:py-28">
+        <ParallaxLayer ratio={0.06} className="pointer-events-none absolute inset-0">
+          <ContourField className="h-full w-full" />
+        </ParallaxLayer>
+        <Container className="relative">
           <Reveal>
             <Eyebrow>Eventos</Eyebrow>
           </Reveal>
@@ -44,22 +50,27 @@ export default async function EventosPage() {
         </Container>
       </section>
 
-      <section className="bg-ivory py-20 sm:py-24">
-        <Container>
-          {events.length > 0 ? (
-            <div className="flex flex-col">
-              {events.map((event, index) => (
-                <Reveal key={event.id} delay={(index % 5) * 80}>
-                  <EventCard event={event} />
-                </Reveal>
-              ))}
+      <section className="relative overflow-hidden bg-green py-20 sm:py-24">
+        <ParallaxLayer ratio={0.04} className="pointer-events-none absolute inset-0 opacity-40">
+          <ContourField className="h-full w-full" />
+        </ParallaxLayer>
+        <Container className="relative">
+          <LedgerCard tone="light" className="shadow-[0_30px_60px_-28px_rgba(0,0,0,0.5)]">
+            <div className="px-6 py-2 sm:px-8">
+              {events.length > 0 ? (
+                events.map((event, index) => (
+                  <Reveal key={event.id} delay={(index % 5) * 80}>
+                    <EventCard event={event} />
+                  </Reveal>
+                ))
+              ) : (
+                <EmptyState
+                  title="Agenda em preparação"
+                  description="Novos eventos estão sendo confirmados. Solicite participação para receber o convite assim que a agenda abrir."
+                />
+              )}
             </div>
-          ) : (
-            <EmptyState
-              title="Agenda em preparação"
-              description="Novos eventos estão sendo confirmados. Solicite participação para receber o convite assim que a agenda abrir."
-            />
-          )}
+          </LedgerCard>
         </Container>
       </section>
     </>

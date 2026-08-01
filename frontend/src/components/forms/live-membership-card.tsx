@@ -1,45 +1,11 @@
 "use client";
 
-import { MouseEvent, useState } from "react";
-import {
-  AnimatePresence,
-  motion,
-  useMotionTemplate,
-  useMotionValue,
-  useReducedMotion,
-  useSpring,
-  useTransform,
-} from "framer-motion";
+import { useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { MembershipFormValues } from "./membership-form";
+import { useCardTilt } from "../motion/use-card-tilt";
 
 type Row = { key: string; label: string; value: string };
-
-const TILT_DEGREES = 8;
-const TILT_SPRING = { stiffness: 200, damping: 24, mass: 0.6 };
-
-function useCardTilt(disabled: boolean) {
-  const px = useMotionValue(0);
-  const py = useMotionValue(0);
-  const rotateX = useSpring(useTransform(py, [-0.5, 0.5], [TILT_DEGREES, -TILT_DEGREES]), TILT_SPRING);
-  const rotateY = useSpring(useTransform(px, [-0.5, 0.5], [-TILT_DEGREES, TILT_DEGREES]), TILT_SPRING);
-  const glossX = useTransform(px, [-0.5, 0.5], ["6%", "94%"]);
-  const glossY = useTransform(py, [-0.5, 0.5], ["6%", "94%"]);
-  const gloss = useMotionTemplate`radial-gradient(220px circle at ${glossX} ${glossY}, rgba(217,192,138,0.2), transparent 70%)`;
-
-  function onMouseMove(event: MouseEvent<HTMLDivElement>) {
-    if (disabled) return;
-    const rect = event.currentTarget.getBoundingClientRect();
-    px.set((event.clientX - rect.left) / rect.width - 0.5);
-    py.set((event.clientY - rect.top) / rect.height - 0.5);
-  }
-
-  function onMouseLeave() {
-    px.set(0);
-    py.set(0);
-  }
-
-  return { rotateX, rotateY, gloss, onMouseMove, onMouseLeave };
-}
 
 const ROW_TRANSITION = { duration: 0.45, ease: [0.16, 1, 0.3, 1] as const };
 

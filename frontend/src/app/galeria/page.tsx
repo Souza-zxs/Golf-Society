@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
 import { Container } from "@/components/ui/container";
 import { Eyebrow } from "@/components/ui/eyebrow";
+import { LedgerCard } from "@/components/ui/ledger-card";
 import { EmptyState } from "@/components/content/empty-state";
+import { PhotoGallery } from "@/components/content/photo-gallery";
 import { Reveal } from "@/components/motion/reveal";
+import { ParallaxLayer } from "@/components/motion/parallax-layer";
+import { ContourField } from "@/components/motion/contour-field";
 import { api } from "@/lib/api";
 
 export const metadata: Metadata = {
@@ -24,8 +28,11 @@ export default async function GaleriaPage() {
 
   return (
     <>
-      <section className="bg-ink py-20 sm:py-28">
-        <Container>
+      <section className="relative overflow-hidden bg-linear-to-b from-green-deep to-green py-20 sm:py-28">
+        <ParallaxLayer ratio={0.06} className="pointer-events-none absolute inset-0">
+          <ContourField className="h-full w-full" />
+        </ParallaxLayer>
+        <Container className="relative">
           <Reveal>
             <Eyebrow>Galeria</Eyebrow>
           </Reveal>
@@ -42,28 +49,21 @@ export default async function GaleriaPage() {
         </Container>
       </section>
 
-      <section className="bg-ivory py-20 sm:py-24">
-        <Container>
-          {photos.length > 0 ? (
-            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
-              {photos.map((photo, index) => (
-                <Reveal key={photo.id} delay={(index % 4) * 80}>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={photo.image_url}
-                    alt={photo.title ?? ""}
-                    loading="lazy"
-                    className="aspect-square w-full object-cover transition-transform duration-500 motion-safe:hover:scale-[1.03]"
-                  />
-                </Reveal>
-              ))}
-            </div>
-          ) : (
-            <EmptyState
-              title="Galeria em construção"
-              description="As primeiras fotos serão publicadas após o próximo encontro. Volte em breve."
-            />
-          )}
+      <section className="relative overflow-hidden bg-green py-20 sm:py-24">
+        <ParallaxLayer ratio={0.04} className="pointer-events-none absolute inset-0 opacity-40">
+          <ContourField className="h-full w-full" />
+        </ParallaxLayer>
+        <Container className="relative">
+          <LedgerCard tone="light" interactive={false} className={`p-4 shadow-[0_30px_60px_-28px_rgba(0,0,0,0.5)] sm:p-6`}>
+            {photos.length > 0 ? (
+              <PhotoGallery photos={photos} />
+            ) : (
+              <EmptyState
+                title="Galeria em construção"
+                description="As primeiras fotos serão publicadas após o próximo encontro. Volte em breve."
+              />
+            )}
+          </LedgerCard>
         </Container>
       </section>
     </>

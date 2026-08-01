@@ -93,12 +93,12 @@ export function MeetingBooking() {
   }
 
   if (loadState === "loading") {
-    return <p className="font-data text-xs uppercase tracking-[0.18em] text-mist">Carregando horários…</p>;
+    return <p className="font-data text-xs uppercase tracking-[0.18em] text-stone">Carregando horários…</p>;
   }
 
   if (loadState === "error") {
     return (
-      <p className="font-data text-xs uppercase tracking-[0.18em] text-mist">
+      <p className="font-data text-xs uppercase tracking-[0.18em] text-stone">
         Não foi possível carregar os horários agora. Fale conosco pelo WhatsApp ou envie uma mensagem abaixo.
       </p>
     );
@@ -106,7 +106,7 @@ export function MeetingBooking() {
 
   if (slots.length === 0) {
     return (
-      <p className="font-data text-xs uppercase tracking-[0.18em] text-mist">
+      <p className="font-data text-xs uppercase tracking-[0.18em] text-stone">
         Nenhum horário disponível no momento. Deixe seus dados que retornamos com novas opções.
       </p>
     );
@@ -114,15 +114,15 @@ export function MeetingBooking() {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex flex-col border border-gold-soft/25">
+      <div className="flex flex-col border border-ink/15">
         {slots.map((slot) => (
           <button
             key={slot.id}
             type="button"
             onClick={() => setSelectedSlotId(slot.id)}
             aria-pressed={selectedSlotId === slot.id}
-            className={`font-data flex items-center justify-between gap-4 border-b border-gold-soft/15 px-5 py-3.5 text-left text-xs uppercase tracking-[0.14em] transition-colors last:border-b-0 ${
-              selectedSlotId === slot.id ? "bg-gold text-ink" : "text-ivory hover:bg-gold-soft/10"
+            className={`font-data flex items-center justify-between gap-4 border-b border-ink/10 px-5 py-3.5 text-left text-xs uppercase tracking-[0.14em] transition-colors last:border-b-0 ${
+              selectedSlotId === slot.id ? "bg-gold text-ink" : "text-ink hover:bg-ink/5"
             }`}
           >
             <span>{formatSlot(slot)}</span>
@@ -145,7 +145,7 @@ export function MeetingBooking() {
 
           <FormNotice status={status} />
 
-          <Button type="submit" variant="outline-dark" disabled={submitting} className="self-start">
+          <Button type="submit" variant="outline-light" disabled={submitting} className="self-start">
             {submitting ? "Confirmando…" : "Confirmar Horário"}
           </Button>
         </form>

@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
 import { Container } from "@/components/ui/container";
 import { Eyebrow } from "@/components/ui/eyebrow";
+import { LedgerCard } from "@/components/ui/ledger-card";
 import { BlogPostCard } from "@/components/content/blog-post-card";
 import { EmptyState } from "@/components/content/empty-state";
 import { Reveal } from "@/components/motion/reveal";
+import { ParallaxLayer } from "@/components/motion/parallax-layer";
+import { ContourField } from "@/components/motion/contour-field";
 import { api } from "@/lib/api";
 
 export const metadata: Metadata = {
@@ -25,8 +28,11 @@ export default async function BlogPage() {
 
   return (
     <>
-      <section className="bg-ink py-20 sm:py-28">
-        <Container>
+      <section className="relative overflow-hidden bg-linear-to-b from-green-deep to-green py-20 sm:py-28">
+        <ParallaxLayer ratio={0.06} className="pointer-events-none absolute inset-0">
+          <ContourField className="h-full w-full" />
+        </ParallaxLayer>
+        <Container className="relative">
           <Reveal>
             <Eyebrow>Conteúdo</Eyebrow>
           </Reveal>
@@ -43,8 +49,11 @@ export default async function BlogPage() {
         </Container>
       </section>
 
-      <section className="bg-ivory py-20 sm:py-24">
-        <Container>
+      <section className="relative overflow-hidden bg-green py-20 sm:py-24">
+        <ParallaxLayer ratio={0.04} className="pointer-events-none absolute inset-0 opacity-40">
+          <ContourField className="h-full w-full" />
+        </ParallaxLayer>
+        <Container className="relative">
           {posts.length > 0 ? (
             <div className="grid gap-x-10 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
               {posts.map((post, index) => (
@@ -54,10 +63,12 @@ export default async function BlogPage() {
               ))}
             </div>
           ) : (
-            <EmptyState
-              title="Primeiras publicações a caminho"
-              description="Estamos preparando o primeiro conteúdo da comunidade. Volte em breve."
-            />
+            <LedgerCard tone="light" interactive={false} className="shadow-[0_30px_60px_-28px_rgba(0,0,0,0.5)]">
+              <EmptyState
+                title="Primeiras publicações a caminho"
+                description="Estamos preparando o primeiro conteúdo da comunidade. Volte em breve."
+              />
+            </LedgerCard>
           )}
         </Container>
       </section>

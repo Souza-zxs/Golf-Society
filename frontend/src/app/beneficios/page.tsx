@@ -5,6 +5,9 @@ import { SectionHeading } from "@/components/ui/section-heading";
 import { LinkButton } from "@/components/ui/button";
 import { Reveal } from "@/components/motion/reveal";
 import { LineDraw } from "@/components/motion/line-draw";
+import { ParallaxLayer } from "@/components/motion/parallax-layer";
+import { ContourField } from "@/components/motion/contour-field";
+import { SectionDivider } from "@/components/ui/section-divider";
 
 export const metadata: Metadata = {
   title: "Benefícios para Membros",
@@ -41,8 +44,11 @@ const BENEFITS = [
 export default function BeneficiosPage() {
   return (
     <>
-      <section className="bg-ink py-20 sm:py-28">
-        <Container>
+      <section className="relative overflow-hidden bg-linear-to-b from-green-deep to-green py-20 sm:py-28">
+        <ParallaxLayer ratio={0.06} className="pointer-events-none absolute inset-0">
+          <ContourField className="h-full w-full" />
+        </ParallaxLayer>
+        <Container className="relative">
           <Reveal>
             <Eyebrow>Benefícios para Membros</Eyebrow>
           </Reveal>
@@ -60,25 +66,33 @@ export default function BeneficiosPage() {
         </Container>
       </section>
 
-      <section className="bg-ivory py-24 sm:py-28">
-        <Container>
+      <section className="relative overflow-hidden bg-green py-24 sm:py-28">
+        <ParallaxLayer ratio={0.04} className="pointer-events-none absolute inset-0 opacity-40">
+          <ContourField className="h-full w-full" />
+        </ParallaxLayer>
+        <Container className="relative">
           <Reveal>
-            <SectionHeading eyebrow="Como Membro" title="Seis vantagens, um único critério de entrada" tone="light" />
+            <SectionHeading eyebrow="Como Membro" title="Seis vantagens, um único critério de entrada" tone="dark" />
           </Reveal>
           <div className="mt-14 grid gap-x-10 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
             {BENEFITS.map((benefit, index) => (
               <Reveal key={benefit.label} delay={(index % 3) * 110}>
-                <LineDraw tone="light" className="mb-5" />
-                <h3 className="font-display text-xl text-ink">{benefit.label}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-stone">{benefit.text}</p>
+                <LineDraw tone="dark" className="mb-5" />
+                <h3 className="font-display text-xl text-ivory">{benefit.label}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-mist">{benefit.text}</p>
               </Reveal>
             ))}
           </div>
         </Container>
       </section>
 
-      <section className="bg-green py-20 text-center sm:py-24">
-        <Container>
+      <SectionDivider />
+
+      <section className="relative overflow-hidden bg-green py-20 text-center sm:py-24">
+        <ParallaxLayer ratio={0.04} className="pointer-events-none absolute inset-0 opacity-40">
+          <ContourField className="h-full w-full" />
+        </ParallaxLayer>
+        <Container className="relative">
           <Reveal>
             <p className="font-display mx-auto max-w-2xl text-3xl italic leading-snug tracking-tight text-ivory sm:text-4xl">
               A candidatura leva cinco minutos. A análise, um convite por vez.

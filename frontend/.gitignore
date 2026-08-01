@@ -24,6 +24,9 @@
 .DS_Store
 *.pem
 
+# raw source files (presentations, unprocessed exports) — not web assets
+/assets-source
+
 # debug
 npm-debug.log*
 yarn-debug.log*
