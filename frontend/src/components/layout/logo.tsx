@@ -15,6 +15,9 @@ export function Logo({ tone = "dark" }: { tone?: "dark" | "light" }) {
         </span>
         <span className="font-data mt-1 text-[10px] tracking-[0.4em] text-gold">GOLF</span>
       </span>
+      <span className="font-data mt-1 text-[10px] tracking-[0.4em] text-gold transition-[letter-spacing] duration-500 group-hover:tracking-[0.55em]">
+        GOLF
+      </span>
     </Link>
   );
 }

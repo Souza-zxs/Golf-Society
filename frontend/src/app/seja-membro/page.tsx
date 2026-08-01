@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Container } from "@/components/ui/container";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { LedgerCard, LedgerRow } from "@/components/ui/ledger-card";
-import { MembershipForm } from "@/components/forms/membership-form";
+import { MembershipApplication } from "@/components/forms/membership-application";
 import { Reveal } from "@/components/motion/reveal";
 
 export const metadata: Metadata = {
@@ -13,8 +13,8 @@ export const metadata: Metadata = {
 export default function SejaMembroPage() {
   return (
     <section className="bg-ivory py-20 sm:py-28">
-      <Container className="grid gap-16 lg:grid-cols-[0.85fr_1.15fr]">
-        <div>
+      <Container>
+        <div className="max-w-2xl">
           <Reveal>
             <Eyebrow tone="light">Seja um Membro</Eyebrow>
           </Reveal>
@@ -27,11 +27,11 @@ export default function SejaMembroPage() {
             <p className="mt-6 text-base leading-relaxed text-stone">
               Não existe adesão automática. Toda candidatura passa pelo nosso comitê, que avalia trajetória,
               aderência ao propósito da comunidade e o que cada pessoa pode contribuir — não só o que espera
-              receber.
+              receber. Preencha ao lado: seu cartão de sócio se monta em tempo real, conforme você escreve.
             </p>
           </Reveal>
 
-          <div className="mt-10">
+          <div className="mt-10 max-w-sm">
             <LedgerCard tone="light" delay={280}>
               <LedgerRow label="Resposta" value="Até 5 dias úteis" tone="light" />
               <LedgerRow label="Critério" value="Trajetória + aderência" tone="light" />
@@ -40,9 +40,11 @@ export default function SejaMembroPage() {
           </div>
         </div>
 
-        <Reveal delay={150}>
-          <MembershipForm />
-        </Reveal>
+        <div className="mt-16 sm:mt-20">
+          <Reveal delay={150}>
+            <MembershipApplication />
+          </Reveal>
+        </div>
       </Container>
     </section>
   );
