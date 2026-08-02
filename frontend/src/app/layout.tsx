@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import { Fraunces, Manrope, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
-import { Header } from "@/components/layout/header";
-import { Footer } from "@/components/layout/footer";
-import { WhatsAppButton } from "@/components/layout/whatsapp-button";
+import { SiteChrome } from "@/components/layout/site-chrome";
 import { PageTransition } from "@/components/layout/page-transition";
 
 const fraunces = Fraunces({
@@ -45,12 +43,9 @@ export default function RootLayout({
       className={`${fraunces.variable} ${manrope.variable} ${plexMono.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col bg-ivory text-ink">
-        <Header />
-        <main className="flex-1">
+        <SiteChrome>
           <PageTransition>{children}</PageTransition>
-        </main>
-        <Footer />
-        <WhatsAppButton />
+        </SiteChrome>
       </body>
     </html>
   );
