@@ -20,7 +20,7 @@ const TIERS = [
   {
     index: "01",
     name: "Patrocinador Master",
-    text: "Presença de marca em toda a temporada — encontros mensais, torneio trimestral e conteúdo editorial. Um único patrocinador por segmento.",
+    text: "Presença de marca em toda a temporada: encontros mensais, torneio trimestral e conteúdo editorial. Um único patrocinador por segmento.",
   },
   {
     index: "02",
@@ -30,7 +30,7 @@ const TIERS = [
   {
     index: "03",
     name: "Patrocinador Apoiador",
-    text: "Presença pontual em um encontro mensal — formato de entrada para marcas que querem conhecer a comunidade.",
+    text: "Presença pontual em um encontro mensal: formato de entrada para marcas que querem conhecer a comunidade.",
   },
 ];
 
@@ -53,8 +53,8 @@ export default function PatrocinadoresPage() {
           <Reveal delay={200}>
             <p className="mt-8 max-w-2xl text-lg leading-relaxed text-mist">
               Não vendemos banner nem cota de patrocínio genérica. Selecionamos marcas que compartilham o
-              padrão da comunidade e desenhamos, junto com cada uma, a forma certa de aparecer dentro da
-              experiência.
+              padrão da comunidade e desenhamos, junto com cada uma, a forma certa de aparecer dentro do
+              ecossistema.
             </p>
           </Reveal>
         </Container>

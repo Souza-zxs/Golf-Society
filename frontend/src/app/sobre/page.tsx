@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 const VALUES = [
   {
     label: "Curadoria",
-    text: "Cada membro é avaliado individualmente. Não existe adesão automática — existe convite.",
+    text: "Cada membro é avaliado individualmente. Não existe adesão automática. Existe convite.",
   },
   {
     label: "Discrição",
@@ -31,7 +31,7 @@ const VALUES = [
   },
   {
     label: "Excelência",
-    text: "Do campo escolhido ao roteiro do encontro, nada é padrão — tudo é decidido a dedo.",
+    text: "Do campo escolhido ao roteiro do encontro, nada é padrão. Tudo é decidido a dedo.",
   },
 ];
 
@@ -54,14 +54,14 @@ export default function SobrePage() {
             </Reveal>
             <Reveal delay={200}>
               <p className="mt-8 max-w-xl text-lg leading-relaxed text-mist">
-                A Sellers Society Golf nasceu de uma constatação simples: os melhores negócios de São Paulo
-                continuam nascendo em conversas informais entre pessoas que se conhecem e confiam umas nas
-                outras. Formalizamos esse encontro — sem tirar o que o torna valioso.
+                A Sellers Society Golf nasceu de uma constatação simples: as marcas mais fortes de São Paulo
+                continuam crescendo em conversas informais entre pessoas que se conhecem e confiam umas nas
+                outras. Formalizamos esse encontro sem tirar o que o torna valioso.
               </p>
             </Reveal>
           </div>
           <LedgerCard tone="light" delay={150} className={CARD_SHADOW}>
-            <LedgerRow label="Segmento" value="Networking Empresarial" tone="light" />
+            <LedgerRow label="Segmento" value="Comunidade de Marcas" tone="light" />
             <LedgerRow label="Plataforma" value="Golfe" tone="light" />
             <LedgerRow label="Praça Inicial" value="São Paulo" tone="light" />
             <LedgerRow label="Modelo" value="Membros + Patrocinadores" tone="light" />
@@ -75,12 +75,12 @@ export default function SobrePage() {
         </ParallaxLayer>
         <Container className="relative grid gap-16 lg:grid-cols-2">
           <Reveal>
-            <SectionHeading eyebrow="Missão" title="Transformar tempo de lazer em capital de relacionamento" tone="dark" />
+            <SectionHeading eyebrow="Missão" title="Transformar tempo de lazer em capital social para a marca" tone="dark" />
             <p className="mt-6 text-base leading-relaxed text-mist">
-              Acreditamos que negócios sérios se constroem em ambientes descontraídos, entre pessoas que se
-              respeitam. Nosso papel é montar esse ambiente com o rigor de uma operação de negócios: seleção
-              criteriosa de membros, campos de padrão internacional e uma agenda desenhada para gerar conexão
-              real — não apenas cartões de visita trocados.
+              Acreditamos que marcas fortes se constroem em ambientes descontraídos, entre pessoas que se
+              respeitam. Nosso papel é montar esse ambiente com o rigor de uma curadoria profissional: seleção
+              criteriosa de membros, campos de padrão internacional e uma agenda desenhada para fortalecer
+              marcas através de conexão real, não apenas cartões de visita trocados.
             </p>
           </Reveal>
           <Reveal delay={120}>

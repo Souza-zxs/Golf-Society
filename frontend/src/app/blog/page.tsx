@@ -38,12 +38,12 @@ export default async function BlogPage() {
           </Reveal>
           <Reveal delay={100}>
             <h1 className="font-display mt-6 max-w-3xl text-5xl leading-[1.1] tracking-tight text-ivory sm:text-6xl">
-              Do fairway aos negócios.
+              Do fairway à sua marca.
             </h1>
           </Reveal>
           <Reveal delay={200}>
             <p className="mt-8 max-w-2xl text-lg leading-relaxed text-mist">
-              Bastidores dos encontros, entrevistas com membros e reflexões sobre negócio, liderança e golfe.
+              Bastidores dos encontros, entrevistas com membros e reflexões sobre marca, liderança e golfe.
             </p>
           </Reveal>
         </Container>

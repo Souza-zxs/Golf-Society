@@ -11,7 +11,7 @@ const CARD_SHADOW = "shadow-[0_30px_60px_-28px_rgba(0,0,0,0.5)]";
 
 export const metadata: Metadata = {
   title: "Seja um Membro",
-  description: "Candidate-se à Sellers Society Golf — comunidade de negócios por convite.",
+  description: "Candidate-se à Sellers Society Golf, comunidade de marcas por convite.",
 };
 
 export default function SejaMembroPage() {
@@ -32,9 +32,10 @@ export default function SejaMembroPage() {
           </Reveal>
           <Reveal delay={200}>
             <p className="mt-6 text-base leading-relaxed text-mist">
-              Não existe adesão automática. Toda candidatura passa pelo nosso comitê, que avalia trajetória,
-              aderência ao propósito da comunidade e o que cada pessoa pode contribuir — não só o que espera
-              receber. Preencha ao lado: seu cartão de sócio se monta em tempo real, conforme você escreve.
+              Não existe adesão automática. Toda candidatura passa pelo nosso comitê, que avalia a trajetória
+              da sua marca, aderência ao propósito da comunidade e o que você pode contribuir, não só o que
+              espera receber. Preencha ao lado: seu cartão de sócio se monta em tempo real, conforme você
+              escreve.
             </p>
           </Reveal>
 

@@ -30,8 +30,8 @@ export function Footer() {
         <div className="sm:col-span-2 lg:col-span-1">
           <Logo tone="dark" />
           <p className="mt-5 max-w-xs text-sm leading-relaxed text-mist">
-            Networking empresarial via golfe. Uma comunidade fechada de empresários, CEOs, executivos e
-            investidores construída em torno de relações — não de crachás.
+            Uma comunidade fechada de donos de marca, CEOs, executivos e investidores construída em torno de
+            relações, não de crachás.
           </p>
           <LinkButton href="/seja-membro" variant="outline-dark" className="mt-7 text-[10px]">
             Solicitar Participação
@@ -109,7 +109,7 @@ export function Footer() {
       <div className="border-t border-gold-soft/10 py-6">
         <Container className="flex flex-col items-center justify-between gap-3 text-center sm:flex-row sm:text-left">
           <p className="font-data text-[10px] uppercase tracking-[0.2em] text-stone">
-            © {new Date().getFullYear()} Sellers Society Golf — por convite
+            © {new Date().getFullYear()} Sellers Society Golf
           </p>
           <p className="font-data text-[10px] uppercase tracking-[0.2em] text-stone">
             Acesso restrito a membros e convidados

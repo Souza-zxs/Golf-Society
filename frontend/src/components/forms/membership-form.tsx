@@ -152,7 +152,7 @@ export function MembershipForm({
           name="motivation"
           required
           rows={6}
-          placeholder="Conte sobre sua trajetória, seus objetivos de negócio e o que espera da comunidade (mín. 20 caracteres)."
+          placeholder="Conte sobre sua trajetória, os objetivos da sua marca e o que espera da comunidade (mín. 20 caracteres)."
           value={values.motivation}
           onChange={(e) => update("motivation", e.target.value)}
         />

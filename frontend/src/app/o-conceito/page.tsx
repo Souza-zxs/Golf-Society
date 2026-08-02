@@ -16,14 +16,14 @@ const CARD_SHADOW = "shadow-[0_30px_60px_-28px_rgba(0,0,0,0.5)]";
 
 export const metadata: Metadata = {
   title: "O Conceito",
-  description: "Por que o golfe é a plataforma de negócios mais subestimada — e como a Sellers Society Golf a organiza.",
+  description: "Por que o golfe é a plataforma de crescimento de marca mais subestimada, e como a Sellers Society Golf a organiza.",
 };
 
 const REASONS = [
   {
     index: "01",
     title: "Quatro horas sem interrupção",
-    text: "Uma rodada dura o suficiente para uma conversa de verdade acontecer — sem notificação, sem reunião marcada em cima, sem plateia. É tempo que ninguém mais está oferecendo.",
+    text: "Uma rodada dura o suficiente para uma conversa de verdade acontecer: sem notificação, sem reunião marcada em cima, sem plateia. É tempo que ninguém mais está oferecendo.",
   },
   {
     index: "02",
@@ -33,14 +33,14 @@ const REASONS = [
   {
     index: "03",
     title: "Ambiente, não evento",
-    text: "Trocamos o salão de hotel pelo campo. O relacionamento nasce do ambiente compartilhado, não do crachá — e por isso dura além do dia do encontro.",
+    text: "Trocamos o salão de hotel pelo campo. O relacionamento nasce do ambiente compartilhado, não do crachá, e vira patrimônio para a marca muito depois do dia do encontro.",
   },
 ];
 
 const FORMATS = [
   { label: "Encontro Mensal", value: "Rodadas de 4 jogadores, formação curada por perfil e interesse" },
   { label: "Torneio Trimestral", value: "Convidados de fora do círculo, patrocínio de marcas parceiras" },
-  { label: "Mesa de Negócios", value: "19ª buraco — conversa estruturada após a rodada, com pauta" },
+  { label: "Mesa Estratégica", value: "19ª buraco: conversa estruturada após a rodada para fortalecer sua marca" },
   { label: "Conteúdo", value: "Bastidores, entrevistas e cases da comunidade no Blog" },
 ];
 
@@ -78,9 +78,10 @@ export default function ConceitoPage() {
           </Reveal>
           <Reveal delay={200}>
             <p className="mt-8 max-w-2xl text-lg leading-relaxed text-mist">
-              Há um século, os maiores negócios do mundo nasceram em campos como este. A Sellers Society Golf
-              existe para trazer esse método de volta — com curadoria, estrutura e um propósito declarado: gerar
-              negócio de verdade entre pessoas que se respeitam.
+              Há um século, as marcas mais fortes do mundo cresceram a partir de conversas em campos como este.
+              A Sellers Society Golf traz esse método de volta, não como evento de networking, mentoria ou
+              mastermind, mas como uma comunidade de acesso restrito para donos de marca que entendem que o
+              maior ativo não é apenas o faturamento, mas o ecossistema em que a marca cresce.
             </p>
           </Reveal>
         </Container>
@@ -121,7 +122,7 @@ export default function ConceitoPage() {
             <SectionHeading
               eyebrow="Como Funciona"
               title="Quatro formatos, um objetivo"
-              description="Cada formato tem uma função específica na jornada do membro — do primeiro aperto de mão ao contrato assinado."
+              description="Cada formato tem uma função específica na jornada do membro, do primeiro aperto de mão ao contrato assinado."
               tone="dark"
             />
           </Reveal>
@@ -142,7 +143,7 @@ export default function ConceitoPage() {
         <Container className="relative">
           <Reveal>
             <p className="font-display mx-auto max-w-2xl text-3xl italic leading-snug tracking-tight text-ivory sm:text-4xl">
-              &ldquo;Não vendemos acesso a um campo. Vendemos acesso às pessoas certas, no momento certo.&rdquo;
+              &ldquo;Não vendemos acesso a um campo. Vendemos o ambiente onde marcas encontram as pessoas certas, no momento certo.&rdquo;
             </p>
             <div className="mt-10 flex flex-wrap justify-center gap-4">
               <LinkButton href="/beneficios" variant="outline-dark">

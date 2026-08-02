@@ -27,12 +27,12 @@ export default function SejaPatrocinadorPage() {
           </Reveal>
           <Reveal delay={100}>
             <h1 className="font-display mt-6 text-4xl leading-[1.1] tracking-tight text-ivory sm:text-5xl">
-              Contamos sua proposta antes de definir o formato.
+              Conte sua marca. Desenhamos o formato juntos.
             </h1>
           </Reveal>
           <Reveal delay={200}>
             <p className="mt-6 text-base leading-relaxed text-mist">
-              Cada parceria é desenhada sob medida — para a marca e para a comunidade. Conte sobre seus
+              Cada parceria é desenhada sob medida, para a marca e para a comunidade. Conte sobre seus
               objetivos e nosso time comercial retorna com uma proposta de ativação.
             </p>
           </Reveal>

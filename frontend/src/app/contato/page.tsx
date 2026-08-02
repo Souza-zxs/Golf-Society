@@ -72,7 +72,7 @@ export default function ContatoPage() {
           <Reveal>
             <SectionHeading eyebrow="Lista de Espera" title="Deixe seus dados" tone="dark" />
             <p className="mt-6 max-w-sm text-sm leading-relaxed text-mist">
-              Conte um pouco sobre você. Nossa equipe entra em contato para os próximos passos — seja para
+              Conte um pouco sobre você. Nossa equipe entra em contato para os próximos passos, seja para
               associação, patrocínio ou apenas para entender melhor a comunidade.
             </p>
             <p className="font-data mt-8 text-[11px] uppercase tracking-[0.2em] text-mist">

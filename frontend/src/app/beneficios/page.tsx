@@ -11,7 +11,7 @@ import { SectionDivider } from "@/components/ui/section-divider";
 
 export const metadata: Metadata = {
   title: "Benefícios para Membros",
-  description: "O que muda quando você entra para a Sellers Society Golf.",
+  description: "O que muda para sua marca quando você entra para a Sellers Society Golf.",
 };
 
 const BENEFITS = [
@@ -25,10 +25,10 @@ const BENEFITS = [
   },
   {
     label: "Diretório de Membros",
-    text: "Acesso ao círculo completo de membros por setor e interesse — a base para toda indicação de negócio.",
+    text: "Acesso ao círculo completo de membros por setor e interesse: a base para toda indicação que fortalece sua marca.",
   },
   {
-    label: "Mesa de Negócios",
+    label: "Mesa Estratégica",
     text: "Espaço estruturado após cada rodada para apresentar projetos, buscar sócios ou fechar parcerias.",
   },
   {
@@ -54,13 +54,13 @@ export default function BeneficiosPage() {
           </Reveal>
           <Reveal delay={100}>
             <h1 className="font-display mt-6 max-w-3xl text-5xl leading-[1.1] tracking-tight text-ivory sm:text-6xl">
-              O que muda quando você entra para o clube.
+              O que muda quando sua marca entra para o clube.
             </h1>
           </Reveal>
           <Reveal delay={200}>
             <p className="mt-8 max-w-2xl text-lg leading-relaxed text-mist">
-              Associar-se à Sellers Society Golf não é comprar um ingresso — é adquirir um lugar permanente em
-              uma rede que trabalha para você mesmo quando você não está jogando.
+              Associar-se à Sellers Society Golf não é comprar um ingresso. É garantir à sua marca um lugar
+              permanente em uma rede que trabalha por ela mesmo quando você não está jogando.
             </p>
           </Reveal>
         </Container>

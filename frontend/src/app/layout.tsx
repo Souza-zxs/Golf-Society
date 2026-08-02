@@ -27,11 +27,11 @@ const plexMono = IBM_Plex_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
   title: {
-    default: "Sellers Society Golf — Networking Empresarial",
-    template: "%s — Sellers Society Golf",
+    default: "Sellers Society Golf · Comunidade de Marcas",
+    template: "%s · Sellers Society Golf",
   },
   description:
-    "Comunidade fechada de empresários, CEOs, executivos e investidores que constroem relações de negócio no campo de golfe. São Paulo, por convite.",
+    "Comunidade fechada de donos de marca, CEOs, executivos e investidores que fortalecem suas marcas no campo de golfe. São Paulo, por convite.",
 };
 
 export default function RootLayout({

@@ -43,8 +43,8 @@ export default async function EventosPage() {
           </Reveal>
           <Reveal delay={200}>
             <p className="mt-8 max-w-2xl text-lg leading-relaxed text-mist">
-              Encontros mensais, torneios trimestrais e experiências com patrocinadores — cada um com vagas
-              limitadas e formação de grupo curada.
+              Encontros mensais, torneios trimestrais e experiências com patrocinadores, cada um pensado para
+              fortalecer a marca de quem participa, com vagas limitadas e formação de grupo curada.
             </p>
           </Reveal>
         </Container>
