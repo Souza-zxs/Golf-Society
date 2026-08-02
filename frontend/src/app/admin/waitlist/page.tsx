@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { adminApi, type ApplicationStatus, type WaitlistEntry } from "@/lib/api";
 import { useAdminFetch } from "@/lib/use-admin-fetch";
-import { StatusBadge } from "@/components/admin/status-badge";
+import { StatusBadge, STATUS_LABELS } from "@/components/admin/status-badge";
 import { formatDateTime } from "@/lib/format";
 
 const STATUS_OPTIONS: ApplicationStatus[] = ["pending", "under_review", "approved", "rejected"];
@@ -92,7 +92,7 @@ export default function AdminWaitlistPage() {
                       >
                         {STATUS_OPTIONS.map((status) => (
                           <option key={status} value={status}>
-                            {status}
+                            {STATUS_LABELS[status] ?? status}
                           </option>
                         ))}
                       </select>

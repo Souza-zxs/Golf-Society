@@ -13,7 +13,7 @@ const STYLES: Record<string, string> = {
   completed: "border-stone/40 text-stone",
 };
 
-const LABELS: Record<string, string> = {
+export const STATUS_LABELS: Record<string, string> = {
   pending: "Pendente",
   under_review: "Em análise",
   approved: "Aprovado",
@@ -35,7 +35,7 @@ export function StatusBadge({ status }: { status: string }) {
         STYLES[status] ?? "border-stone/40 text-stone"
       }`}
     >
-      {LABELS[status] ?? status}
+      {STATUS_LABELS[status] ?? status}
     </span>
   );
 }

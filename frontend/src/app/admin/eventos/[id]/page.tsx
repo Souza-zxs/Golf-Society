@@ -6,6 +6,7 @@ import { ApiError, adminApi, api, type EventPartner, type EventStatus, type SsgE
 import { useAdminFetch } from "@/lib/use-admin-fetch";
 import { Button } from "@/components/ui/button";
 import { TextField, TextAreaField, FormNotice } from "@/components/forms/field";
+import { STATUS_LABELS } from "@/components/admin/status-badge";
 
 const STATUS_OPTIONS: EventStatus[] = ["upcoming", "ongoing", "completed", "cancelled"];
 
@@ -126,7 +127,7 @@ export default function AdminEventFormPage({ params }: { params: Promise<{ id: s
             >
               {STATUS_OPTIONS.map((status) => (
                 <option key={status} value={status}>
-                  {status}
+                  {STATUS_LABELS[status] ?? status}
                 </option>
               ))}
             </select>
