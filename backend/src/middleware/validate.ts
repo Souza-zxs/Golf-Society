@@ -22,7 +22,15 @@ export function validateQuery(schema: ZodTypeAny) {
       return res.status(400).json(formatZodError(result.error));
     }
 
-    req.query = result.data as any;
+    // Express 5 expõe `req.query` como getter somente-leitura no prototype;
+    // reatribuir diretamente lança TypeError. Definir a propriedade na
+    // instância do request sombreia o getter e permite passar os dados
+    // já validados/coeridos pelo zod adiante.
+    Object.defineProperty(req, 'query', {
+      value: result.data,
+      writable: true,
+      configurable: true,
+    });
     next();
   };
 }

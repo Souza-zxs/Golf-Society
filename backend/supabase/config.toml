@@ -1,0 +1,27 @@
+project_id = "urgtzgtkluritdudklwy"
+
+# As funções expõem endpoints públicos (formulários, listagens) e endpoints
+# administrativos protegidos pelo próprio header `Authorization: Bearer
+# <ADMIN_API_KEY>` (ver _shared/requireAdmin.ts) — não pela verificação de
+# JWT do Supabase. Desligamos verify_jwt para não exigir um JWT do Supabase
+# em requisições públicas anônimas vindas do front-end.
+[functions.waitlist]
+verify_jwt = false
+
+[functions.membership-applications]
+verify_jwt = false
+
+[functions.sponsorships]
+verify_jwt = false
+
+[functions.meetings]
+verify_jwt = false
+
+[functions.blog]
+verify_jwt = false
+
+[functions.events]
+verify_jwt = false
+
+[functions.gallery]
+verify_jwt = false
