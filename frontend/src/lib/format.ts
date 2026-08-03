@@ -47,3 +47,6 @@ export const EVENT_STATUS_LABEL: Record<string, string> = {
   completed: "Realizado",
   cancelled: "Cancelado",
 };
+
+
+//teste
