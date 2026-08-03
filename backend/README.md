@@ -41,7 +41,6 @@ Variáveis de ambiente (ver `.env.example`):
 | `SUPABASE_URL` | URL do projeto Supabase |
 | `SUPABASE_SERVICE_KEY` | Service role key (nunca expor no front) |
 | `SUPABASE_GALLERY_BUCKET` | Nome do bucket de Storage para fotos da galeria (padrão: `gallery`) |
-| `ADMIN_API_KEY` | Chave usada pelos endpoints administrativos |
 | `CORS_ORIGIN` | Origens do front-end autorizadas (separadas por vírgula) |
 | `PORT` | Porta HTTP (padrão: `3333`) |
 | `NODE_ENV` | `development` / `production` |
@@ -57,18 +56,21 @@ Storage **público para leitura** chamado `gallery` (ou o nome definido em
 
 ### Autenticação administrativa
 
-Não há sistema de contas de usuário nesta etapa. Endpoints administrativos
-(gestão de candidaturas, posts, eventos, horários e galeria) são
-protegidos por uma chave simples enviada via header:
+Endpoints administrativos (gestão de candidaturas, posts, eventos, horários
+e galeria) são protegidos por uma sessão do Supabase Auth (e-mail + senha),
+enviada via header:
 
 ```
-Authorization: Bearer <ADMIN_API_KEY>
+Authorization: Bearer <access_token>
 ```
 
-Isso é suficiente para uso interno (painel administrativo futuro ou
-Postman) sem exigir infraestrutura de autenticação completa nesta fase.
-Quando houver um painel administrativo com múltiplos usuários, este
-mecanismo deve evoluir para Supabase Auth com RBAC.
+O middleware (`src/middleware/requireAdmin.ts`) valida o token chamando
+`supabase.auth.getUser(token)` contra o servidor de Auth do Supabase — não
+há verificação manual de JWKS/assinatura. Não existe cadastro público nem
+tabela de RBAC: qualquer conta existente no Supabase Auth do projeto já
+conta como admin, então o cadastro de novos usuários deve ficar desativado
+em Authentication → Settings, e as contas devem ser criadas manualmente em
+Authentication → Users.
 
 ## Endpoints
 

@@ -2,16 +2,15 @@
 
 import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
-import { ApiError, adminApi } from "@/lib/api";
-import { useAdminAuth } from "@/lib/admin-auth";
+import { supabaseBrowser } from "@/lib/supabase-client";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { FormNotice } from "@/components/forms/field";
 
 export default function AdminLoginPage() {
-  const { setKey } = useAdminAuth();
   const router = useRouter();
-  const [value, setValue] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -20,21 +19,18 @@ export default function AdminLoginPage() {
     setLoading(true);
     setError(null);
 
-    try {
-      // Sem sessão/JWT nesta fase: validamos a chave testando uma chamada
-      // administrativa real. Se responder 200, a chave é válida.
-      await adminApi.waitlist.list(value.trim());
-      setKey(value.trim());
-      router.replace("/admin");
-    } catch (err) {
-      if (err instanceof ApiError && err.status === 401) {
-        setError("Chave inválida.");
-      } else {
-        setError("Não foi possível conectar à API. Tente novamente.");
-      }
-    } finally {
+    const { error: signInError } = await supabaseBrowser.auth.signInWithPassword({
+      email: email.trim(),
+      password,
+    });
+
+    if (signInError) {
+      setError("E-mail ou senha inválidos.");
       setLoading(false);
+      return;
     }
+
+    router.replace("/admin");
   }
 
   return (
@@ -47,20 +43,33 @@ export default function AdminLoginPage() {
           </div>
 
           <label className="flex flex-col gap-2">
-            <span className="font-data text-[11px] uppercase tracking-[0.18em] text-mist">Admin API Key</span>
+            <span className="font-data text-[11px] uppercase tracking-[0.18em] text-mist">E-mail</span>
             <input
-              type="password"
-              value={value}
-              onChange={(event) => setValue(event.target.value)}
+              type="email"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
               required
               autoFocus
+              autoComplete="email"
+              className="w-full border border-gold-line bg-transparent px-4 py-3 text-sm text-ivory placeholder:text-mist/50 focus:border-gold focus:outline-none"
+            />
+          </label>
+
+          <label className="flex flex-col gap-2">
+            <span className="font-data text-[11px] uppercase tracking-[0.18em] text-mist">Senha</span>
+            <input
+              type="password"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+              required
+              autoComplete="current-password"
               className="w-full border border-gold-line bg-transparent px-4 py-3 text-sm text-ivory placeholder:text-mist/50 focus:border-gold focus:outline-none"
             />
           </label>
 
           <FormNotice status={error ? { type: "error", message: error } : null} />
 
-          <Button type="submit" variant="solid" disabled={loading || !value.trim()}>
+          <Button type="submit" variant="solid" disabled={loading || !email.trim() || !password}>
             {loading ? "Entrando…" : "Entrar"}
           </Button>
         </form>

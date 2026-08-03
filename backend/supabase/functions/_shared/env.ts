@@ -13,7 +13,6 @@ export const env = {
   supabaseUrl: required('SUPABASE_URL'),
   supabaseServiceRoleKey: required('SUPABASE_SERVICE_ROLE_KEY'),
   galleryBucket: Deno.env.get('GALLERY_BUCKET') || 'gallery',
-  adminApiKey: required('ADMIN_API_KEY'),
   corsOrigins: (Deno.env.get('CORS_ORIGIN') || 'http://localhost:3000')
     .split(',')
     .map((origin) => origin.trim()),

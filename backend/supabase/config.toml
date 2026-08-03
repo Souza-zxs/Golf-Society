@@ -2,9 +2,10 @@ project_id = "urgtzgtkluritdudklwy"
 
 # As funções expõem endpoints públicos (formulários, listagens) e endpoints
 # administrativos protegidos pelo próprio header `Authorization: Bearer
-# <ADMIN_API_KEY>` (ver _shared/requireAdmin.ts) — não pela verificação de
-# JWT do Supabase. Desligamos verify_jwt para não exigir um JWT do Supabase
-# em requisições públicas anônimas vindas do front-end.
+# <access_token>` do Supabase Auth (ver _shared/requireAdmin.ts) — não pela
+# verificação de JWT nativa do Hono/Supabase Functions. Desligamos verify_jwt
+# para não exigir esse JWT em requisições públicas anônimas vindas do
+# front-end; o requireAdmin faz sua própria validação nas rotas admin.
 [functions.waitlist]
 verify_jwt = false
 
