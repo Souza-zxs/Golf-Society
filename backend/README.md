@@ -44,6 +44,9 @@ Variáveis de ambiente (ver `.env.example`):
 | `CORS_ORIGIN` | Origens do front-end autorizadas (separadas por vírgula) |
 | `PORT` | Porta HTTP (padrão: `3333`) |
 | `NODE_ENV` | `development` / `production` |
+| `RESEND_API_KEY` | Chave de API do [Resend](https://resend.com/api-keys), usada para enviar e-mail transacional |
+| `EMAIL_FROM` | Remetente dos e-mails (padrão: `Sellers Society Golf <onboarding@resend.dev>`; em produção, use um endereço do domínio verificado no Resend) |
+| `EMAIL_REPLY_TO` | Opcional — endereço para onde vão as respostas de "Responder" do destinatário, caso `EMAIL_FROM` seja um endereço de no-reply/institucional |
 
 ### Banco de dados
 
@@ -92,7 +95,7 @@ Todas as respostas de erro seguem um formato inspirado em RFC 7807
 | POST | `/membership-applications` | público | Envia candidatura ("Seja um Membro") |
 | GET | `/membership-applications` | admin | Lista candidaturas |
 | GET | `/membership-applications/:id` | admin | Detalha uma candidatura |
-| PATCH | `/membership-applications/:id/status` | admin | Aprova/rejeita |
+| PATCH | `/membership-applications/:id/status` | admin | Aprova/rejeita — ao aprovar (`status: "approved"`), envia e-mail automático ao candidato via Resend |
 
 ### Candidatura de patrocínio (`/sponsorships`)
 
@@ -100,7 +103,7 @@ Todas as respostas de erro seguem um formato inspirado em RFC 7807
 | --- | --- | --- | --- |
 | POST | `/sponsorships` | público | Envia candidatura ("Seja um Patrocinador") |
 | GET | `/sponsorships` | admin | Lista candidaturas |
-| PATCH | `/sponsorships/:id/status` | admin | Aprova/rejeita |
+| PATCH | `/sponsorships/:id/status` | admin | Aprova/rejeita — ao aprovar (`status: "approved"`), envia e-mail automático ao patrocinador via Resend |
 
 ### Agendamento de reuniões (`/meetings`)
 
@@ -209,6 +212,7 @@ src/
   middleware/     # validação (zod), auth admin, rate limit, upload, erros
   schemas/        # schemas zod por recurso
   controllers/    # lógica de acesso a dados (Supabase)
+  services/       # integrações externas (e-mail via Resend)
   routes/         # definição das rotas Express por recurso
   types/          # tipos compartilhados
 supabase/

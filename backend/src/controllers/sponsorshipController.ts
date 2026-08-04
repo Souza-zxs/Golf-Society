@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { supabase } from '../config/supabase';
 import { sendInternalError } from '../utils/httpError';
+import { sendApprovalEmail } from '../services/emailService';
 
 export async function createSponsorshipApplication(req: Request, res: Response) {
   const { data, error } = await supabase
@@ -26,6 +27,12 @@ export async function listSponsorshipApplications(_req: Request, res: Response) 
 export async function updateSponsorshipStatus(req: Request, res: Response) {
   const { id } = req.params;
 
+  const { data: existing } = await supabase
+    .from('sponsorship_applications')
+    .select('status')
+    .eq('id', id)
+    .maybeSingle();
+
   const { data, error } = await supabase
     .from('sponsorship_applications')
     .update({ status: req.body.status })
@@ -35,5 +42,10 @@ export async function updateSponsorshipStatus(req: Request, res: Response) {
 
   if (error) return sendInternalError(res, 'Erro ao atualizar status', error);
   if (!data) return res.status(404).json({ title: 'Candidatura não encontrada', status: 404 });
+
+  if (data.status === 'approved' && existing?.status !== 'approved') {
+    await sendApprovalEmail({ to: data.email, name: data.contact_name, type: 'sponsorship' });
+  }
+
   return res.json(data);
 }
