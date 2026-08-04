@@ -44,7 +44,12 @@ export async function updateSponsorshipStatus(req: Request, res: Response) {
   if (!data) return res.status(404).json({ title: 'Candidatura não encontrada', status: 404 });
 
   if (data.status === 'approved' && existing?.status !== 'approved') {
-    await sendApprovalEmail({ to: data.email, name: data.contact_name, type: 'sponsorship' });
+    await sendApprovalEmail({
+      to: data.email,
+      name: data.contact_name,
+      type: 'sponsorship',
+      company: data.company_name,
+    });
   }
 
   return res.json(data);
