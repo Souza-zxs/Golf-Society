@@ -49,4 +49,3 @@ export const EVENT_STATUS_LABEL: Record<string, string> = {
 };
 
 
-//teste
