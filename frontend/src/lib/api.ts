@@ -347,6 +347,8 @@ export const adminApi = {
         body: { status },
         adminKey,
       }),
+    remove: (adminKey: string, id: string) =>
+      request<void>(`/membership-applications/${id}`, { method: "DELETE", adminKey }),
   },
   sponsorship: {
     list: (adminKey: string) =>
@@ -357,6 +359,8 @@ export const adminApi = {
         body: { status },
         adminKey,
       }),
+    remove: (adminKey: string, id: string) =>
+      request<void>(`/sponsorships/${id}`, { method: "DELETE", adminKey }),
   },
   meetings: {
     listSlotsAdmin: (adminKey: string) =>

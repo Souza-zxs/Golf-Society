@@ -54,3 +54,12 @@ export async function updateSponsorshipStatus(req: Request, res: Response) {
 
   return res.json(data);
 }
+
+export async function deleteSponsorshipApplication(req: Request, res: Response) {
+  const { id } = req.params;
+
+  const { error } = await supabase.from('sponsorship_applications').delete().eq('id', id);
+
+  if (error) return sendInternalError(res, 'Erro ao remover patrocínio', error);
+  return res.status(204).send();
+}

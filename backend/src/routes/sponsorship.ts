@@ -10,6 +10,7 @@ import {
   createSponsorshipApplication,
   listSponsorshipApplications,
   updateSponsorshipStatus,
+  deleteSponsorshipApplication,
 } from '../controllers/sponsorshipController';
 
 const router = Router();
@@ -32,5 +33,8 @@ router.patch(
   validateBody(updateSponsorshipStatusSchema),
   updateSponsorshipStatus,
 );
+
+// DELETE /sponsorships/:id — administrativo
+router.delete('/:id', requireAdmin, deleteSponsorshipApplication);
 
 export default router;

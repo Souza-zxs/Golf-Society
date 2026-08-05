@@ -63,3 +63,12 @@ export async function updateMembershipStatus(req: Request, res: Response) {
 
   return res.json(data);
 }
+
+export async function deleteMembershipApplication(req: Request, res: Response) {
+  const { id } = req.params;
+
+  const { error } = await supabase.from('membership_applications').delete().eq('id', id);
+
+  if (error) return sendInternalError(res, 'Erro ao remover candidatura', error);
+  return res.status(204).send();
+}

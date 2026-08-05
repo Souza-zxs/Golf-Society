@@ -71,4 +71,14 @@ app.patch('/:id/status', requireAdmin, validateBody(updateMembershipStatusSchema
   return c.json(data);
 });
 
+// DELETE /membership-applications/:id — administrativo
+app.delete('/:id', requireAdmin, async (c) => {
+  const { id } = c.req.param();
+
+  const { error } = await supabase.from('membership_applications').delete().eq('id', id);
+
+  if (error) return internalError(c, 'Erro ao remover candidatura', error);
+  return c.body(null, 204);
+});
+
 serveHono(app, 'membership-applications');

@@ -12,6 +12,7 @@ export default function AdminSponsorshipPage() {
   const adminFetch = useAdminFetch();
   const [entries, setEntries] = useState<SponsorshipApplication[] | null>(null);
   const [updatingId, setUpdatingId] = useState<string | null>(null);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   async function load() {
@@ -37,6 +38,19 @@ export default function AdminSponsorshipPage() {
       setError("Não foi possível atualizar o status.");
     } finally {
       setUpdatingId(null);
+    }
+  }
+
+  async function handleDelete(id: string) {
+    if (!window.confirm("Remover esta candidatura de patrocínio definitivamente?")) return;
+    setDeletingId(id);
+    try {
+      await adminFetch((key) => adminApi.sponsorship.remove(key, id));
+      setEntries((prev) => prev?.filter((entry) => entry.id !== id) ?? prev);
+    } catch {
+      setError("Não foi possível remover a candidatura.");
+    } finally {
+      setDeletingId(null);
     }
   }
 
@@ -94,7 +108,16 @@ export default function AdminSponsorshipPage() {
                   </select>
                 </div>
               </div>
-              <p className="mt-3 text-xs text-stone">Recebido em {formatDateTime(entry.created_at)}</p>
+              <div className="mt-3 flex items-center justify-between">
+                <p className="text-xs text-stone">Recebido em {formatDateTime(entry.created_at)}</p>
+                <button
+                  onClick={() => handleDelete(entry.id)}
+                  disabled={deletingId === entry.id}
+                  className="font-data text-[11px] uppercase tracking-[0.14em] text-red-800 hover:underline disabled:opacity-50"
+                >
+                  Remover
+                </button>
+              </div>
             </div>
           ))}
         </div>

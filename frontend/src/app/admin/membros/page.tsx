@@ -12,6 +12,7 @@ export default function AdminMembershipPage() {
   const adminFetch = useAdminFetch();
   const [entries, setEntries] = useState<MembershipApplication[] | null>(null);
   const [updatingId, setUpdatingId] = useState<string | null>(null);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
@@ -38,6 +39,19 @@ export default function AdminMembershipPage() {
       setError("Não foi possível atualizar o status.");
     } finally {
       setUpdatingId(null);
+    }
+  }
+
+  async function handleDelete(id: string) {
+    if (!window.confirm("Remover esta candidatura definitivamente?")) return;
+    setDeletingId(id);
+    try {
+      await adminFetch((key) => adminApi.membership.remove(key, id));
+      setEntries((prev) => prev?.filter((entry) => entry.id !== id) ?? prev);
+    } catch {
+      setError("Não foi possível remover a candidatura.");
+    } finally {
+      setDeletingId(null);
     }
   }
 
@@ -87,12 +101,21 @@ export default function AdminMembershipPage() {
                   </div>
                 </div>
 
-                <button
-                  onClick={() => setExpandedId(expanded ? null : entry.id)}
-                  className="font-data mt-3 text-[11px] uppercase tracking-[0.14em] text-gold hover:underline"
-                >
-                  {expanded ? "Ocultar motivação" : "Ver motivação"}
-                </button>
+                <div className="mt-3 flex items-center gap-4">
+                  <button
+                    onClick={() => setExpandedId(expanded ? null : entry.id)}
+                    className="font-data text-[11px] uppercase tracking-[0.14em] text-gold hover:underline"
+                  >
+                    {expanded ? "Ocultar motivação" : "Ver motivação"}
+                  </button>
+                  <button
+                    onClick={() => handleDelete(entry.id)}
+                    disabled={deletingId === entry.id}
+                    className="font-data text-[11px] uppercase tracking-[0.14em] text-red-800 hover:underline disabled:opacity-50"
+                  >
+                    Remover
+                  </button>
+                </div>
 
                 {expanded ? (
                   <div className="mt-3 border-t border-ink/10 pt-3 text-sm text-ink/80">

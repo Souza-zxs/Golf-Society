@@ -65,4 +65,14 @@ app.patch('/:id/status', requireAdmin, validateBody(updateSponsorshipStatusSchem
   return c.json(data);
 });
 
+// DELETE /sponsorships/:id — administrativo
+app.delete('/:id', requireAdmin, async (c) => {
+  const { id } = c.req.param();
+
+  const { error } = await supabase.from('sponsorship_applications').delete().eq('id', id);
+
+  if (error) return internalError(c, 'Erro ao remover patrocínio', error);
+  return c.body(null, 204);
+});
+
 serveHono(app, 'sponsorships');

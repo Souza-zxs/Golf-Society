@@ -11,6 +11,7 @@ import {
   listMembershipApplications,
   getMembershipApplication,
   updateMembershipStatus,
+  deleteMembershipApplication,
 } from '../controllers/membershipController';
 
 const router = Router();
@@ -36,5 +37,8 @@ router.patch(
   validateBody(updateMembershipStatusSchema),
   updateMembershipStatus,
 );
+
+// DELETE /membership-applications/:id — administrativo
+router.delete('/:id', requireAdmin, deleteMembershipApplication);
 
 export default router;
