@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import { adminApi, api, type SsgEvent } from "@/lib/api";
 import { useAdminFetch } from "@/lib/use-admin-fetch";
 import { StatusBadge } from "@/components/admin/status-badge";
+import { PageHeader } from "@/components/admin/page-header";
+import { LoadingState, EmptyState } from "@/components/admin/list-state";
 import { formatEventDate } from "@/lib/format";
 import { Button } from "@/components/ui/button";
 
@@ -43,25 +45,25 @@ export default function AdminEventsPage() {
 
   return (
     <div className="flex flex-col gap-8">
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <p className="font-data text-[11px] uppercase tracking-[0.18em] text-gold">Eventos</p>
-          <h1 className="font-display mt-2 text-3xl text-ink">Todos os eventos</h1>
-        </div>
-        <Link href="/admin/eventos/novo">
-          <Button variant="solid">Novo evento</Button>
-        </Link>
-      </div>
+      <PageHeader
+        eyebrow="Eventos"
+        title="Todos os eventos"
+        action={
+          <Link href="/admin/eventos/novo">
+            <Button variant="solid">Novo evento</Button>
+          </Link>
+        }
+      />
 
       {error ? <p className="text-sm text-red-800">{error}</p> : null}
 
       {!events ? (
-        <p className="text-sm text-stone">Carregando…</p>
+        <LoadingState label="Carregando eventos" />
       ) : events.length === 0 ? (
-        <p className="text-sm text-stone">Nenhum evento ainda.</p>
+        <EmptyState label="Nenhum evento ainda." />
       ) : (
-        <div className="overflow-x-auto border border-ink/10">
-          <table className="w-full min-w-[720px] text-left text-sm">
+        <div className="overflow-x-auto border border-ink/10 bg-white shadow-[0_1px_3px_rgba(14,18,16,0.05)]">
+          <table className="w-full min-w-180 text-left text-sm">
             <thead className="bg-ink/5 font-data text-[11px] uppercase tracking-[0.14em] text-stone">
               <tr>
                 <th className="px-4 py-3">Título</th>
@@ -72,7 +74,7 @@ export default function AdminEventsPage() {
             </thead>
             <tbody>
               {events.map((event) => (
-                <tr key={event.id} className="border-t border-ink/10">
+                <tr key={event.id} className="border-t border-ink/10 transition-colors hover:bg-ink/1.5">
                   <td className="px-4 py-3">
                     <p className="font-medium text-ink">{event.title}</p>
                     <p className="text-xs text-stone">/{event.slug}</p>

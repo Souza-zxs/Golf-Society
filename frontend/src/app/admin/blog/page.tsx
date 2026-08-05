@@ -5,6 +5,8 @@ import { useEffect, useState, type FormEvent } from "react";
 import { ApiError, adminApi, api, type BlogCategory, type BlogPost } from "@/lib/api";
 import { useAdminFetch } from "@/lib/use-admin-fetch";
 import { StatusBadge } from "@/components/admin/status-badge";
+import { PageHeader } from "@/components/admin/page-header";
+import { LoadingState, EmptyState } from "@/components/admin/list-state";
 import { formatDateTime } from "@/lib/format";
 import { Button } from "@/components/ui/button";
 import { FormNotice } from "@/components/forms/field";
@@ -75,25 +77,25 @@ export default function AdminBlogPage() {
 
   return (
     <div className="flex flex-col gap-10">
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <p className="font-data text-[11px] uppercase tracking-[0.18em] text-gold">Blog</p>
-          <h1 className="font-display mt-2 text-3xl text-ink">Posts</h1>
-        </div>
-        <Link href="/admin/blog/novo">
-          <Button variant="solid">Novo post</Button>
-        </Link>
-      </div>
+      <PageHeader
+        eyebrow="Blog"
+        title="Posts"
+        action={
+          <Link href="/admin/blog/novo">
+            <Button variant="solid">Novo post</Button>
+          </Link>
+        }
+      />
 
       {error ? <p className="text-sm text-red-800">{error}</p> : null}
 
       {!posts ? (
-        <p className="text-sm text-stone">Carregando…</p>
+        <LoadingState label="Carregando posts" />
       ) : posts.length === 0 ? (
-        <p className="text-sm text-stone">Nenhum post ainda.</p>
+        <EmptyState label="Nenhum post ainda." />
       ) : (
-        <div className="overflow-x-auto border border-ink/10">
-          <table className="w-full min-w-[720px] text-left text-sm">
+        <div className="overflow-x-auto border border-ink/10 bg-white shadow-[0_1px_3px_rgba(14,18,16,0.05)]">
+          <table className="w-full min-w-180 text-left text-sm">
             <thead className="bg-ink/5 font-data text-[11px] uppercase tracking-[0.14em] text-stone">
               <tr>
                 <th className="px-4 py-3">Título</th>
@@ -105,7 +107,7 @@ export default function AdminBlogPage() {
             </thead>
             <tbody>
               {posts.map((post) => (
-                <tr key={post.id} className="border-t border-ink/10">
+                <tr key={post.id} className="border-t border-ink/10 transition-colors hover:bg-ink/1.5">
                   <td className="px-4 py-3">
                     <p className="font-medium text-ink">{post.title}</p>
                     <p className="text-xs text-stone">/{post.slug}</p>
@@ -143,7 +145,7 @@ export default function AdminBlogPage() {
         <h2 className="font-display text-xl text-ink">Categorias</h2>
         <div className="flex flex-wrap gap-2">
           {categories?.map((category) => (
-            <span key={category.id} className="border border-ink/15 px-3 py-1 text-xs text-ink/80">
+            <span key={category.id} className="border border-ink/15 bg-white px-3 py-1 text-xs text-ink/80">
               {category.name}
             </span>
           ))}

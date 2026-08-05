@@ -5,7 +5,9 @@ import { useRouter } from "next/navigation";
 import { ApiError, adminApi, api, type BlogCategory, type BlogPost } from "@/lib/api";
 import { useAdminFetch } from "@/lib/use-admin-fetch";
 import { Button } from "@/components/ui/button";
-import { TextField, TextAreaField, FormNotice } from "@/components/forms/field";
+import { TextField, TextAreaField, SelectField, FormNotice } from "@/components/forms/field";
+import { PageHeader } from "@/components/admin/page-header";
+import { LoadingState } from "@/components/admin/list-state";
 
 export default function AdminBlogFormPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
@@ -83,14 +85,11 @@ export default function AdminBlogFormPage({ params }: { params: Promise<{ id: st
     }
   }
 
-  if (loading) return <p className="text-sm text-stone">Carregando…</p>;
+  if (loading) return <LoadingState label="Carregando post" />;
 
   return (
     <div className="flex max-w-2xl flex-col gap-8">
-      <div>
-        <p className="font-data text-[11px] uppercase tracking-[0.18em] text-gold">Blog</p>
-        <h1 className="font-display mt-2 text-3xl text-ink">{isNew ? "Novo post" : "Editar post"}</h1>
-      </div>
+      <PageHeader eyebrow="Blog" title={isNew ? "Novo post" : "Editar post"} />
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-5">
         <TextField label="Título" name="title" required defaultValue={post?.title} />
@@ -105,33 +104,19 @@ export default function AdminBlogFormPage({ params }: { params: Promise<{ id: st
         />
         <TextField label="Autor" name="author_name" defaultValue={post?.author_name ?? ""} />
 
-        <label className="flex flex-col gap-2">
-          <span className="font-data text-[11px] uppercase tracking-[0.18em] text-stone">Categoria</span>
-          <select
-            name="category_id"
-            defaultValue={post?.category_id ?? ""}
-            className="w-full border border-ink/20 bg-transparent px-4 py-3 text-sm text-ink focus:border-gold focus:outline-none"
-          >
-            <option value="">Sem categoria</option>
-            {categories.map((category) => (
-              <option key={category.id} value={category.id}>
-                {category.name}
-              </option>
-            ))}
-          </select>
-        </label>
+        <SelectField label="Categoria" name="category_id" defaultValue={post?.category_id ?? ""}>
+          <option value="">Sem categoria</option>
+          {categories.map((category) => (
+            <option key={category.id} value={category.id}>
+              {category.name}
+            </option>
+          ))}
+        </SelectField>
 
-        <label className="flex flex-col gap-2">
-          <span className="font-data text-[11px] uppercase tracking-[0.18em] text-stone">Status</span>
-          <select
-            name="status"
-            defaultValue={post?.status ?? "draft"}
-            className="w-full border border-ink/20 bg-transparent px-4 py-3 text-sm text-ink focus:border-gold focus:outline-none"
-          >
-            <option value="draft">Rascunho</option>
-            <option value="published">Publicado</option>
-          </select>
-        </label>
+        <SelectField label="Status" name="status" defaultValue={post?.status ?? "draft"}>
+          <option value="draft">Rascunho</option>
+          <option value="published">Publicado</option>
+        </SelectField>
 
         <FormNotice status={notice} />
 

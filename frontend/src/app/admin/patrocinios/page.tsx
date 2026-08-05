@@ -4,6 +4,9 @@ import { useEffect, useState } from "react";
 import { adminApi, type ApplicationStatus, type SponsorshipApplication } from "@/lib/api";
 import { useAdminFetch } from "@/lib/use-admin-fetch";
 import { StatusBadge, STATUS_LABELS } from "@/components/admin/status-badge";
+import { StatusSelect } from "@/components/admin/status-select";
+import { PageHeader } from "@/components/admin/page-header";
+import { LoadingState, EmptyState } from "@/components/admin/list-state";
 import { formatDateTime } from "@/lib/format";
 
 const STATUS_OPTIONS: ApplicationStatus[] = ["pending", "under_review", "approved", "rejected"];
@@ -56,21 +59,21 @@ export default function AdminSponsorshipPage() {
 
   return (
     <div className="flex flex-col gap-6">
-      <div>
-        <p className="font-data text-[11px] uppercase tracking-[0.18em] text-gold">Seja um Patrocinador</p>
-        <h1 className="font-display mt-2 text-3xl text-ink">Candidaturas de Patrocínio</h1>
-      </div>
+      <PageHeader eyebrow="Seja um Patrocinador" title="Candidaturas de Patrocínio" />
 
       {error ? <p className="text-sm text-red-800">{error}</p> : null}
 
       {!entries ? (
-        <p className="text-sm text-stone">Carregando…</p>
+        <LoadingState label="Carregando candidaturas" />
       ) : entries.length === 0 ? (
-        <p className="text-sm text-stone">Nenhuma candidatura ainda.</p>
+        <EmptyState label="Nenhuma candidatura ainda." />
       ) : (
         <div className="flex flex-col gap-3">
           {entries.map((entry) => (
-            <div key={entry.id} className="border border-ink/10 bg-white/40 p-5">
+            <div
+              key={entry.id}
+              className="border border-ink/10 bg-white p-5 shadow-[0_1px_3px_rgba(14,18,16,0.05)]"
+            >
               <div className="flex flex-wrap items-start justify-between gap-4">
                 <div>
                   <p className="font-medium text-ink">{entry.company_name}</p>
@@ -94,21 +97,16 @@ export default function AdminSponsorshipPage() {
                 </div>
                 <div className="flex items-center gap-2">
                   <StatusBadge status={entry.status} />
-                  <select
+                  <StatusSelect
                     value={entry.status}
+                    options={STATUS_OPTIONS}
+                    labels={STATUS_LABELS}
                     disabled={updatingId === entry.id}
-                    onChange={(event) => handleStatusChange(entry.id, event.target.value as ApplicationStatus)}
-                    className="border border-ink/20 bg-transparent px-2 py-1 text-xs"
-                  >
-                    {STATUS_OPTIONS.map((status) => (
-                      <option key={status} value={status}>
-                        {STATUS_LABELS[status] ?? status}
-                      </option>
-                    ))}
-                  </select>
+                    onChange={(status) => handleStatusChange(entry.id, status)}
+                  />
                 </div>
               </div>
-              <div className="mt-3 flex items-center justify-between">
+              <div className="mt-4 flex items-center justify-between border-t border-ink/10 pt-3">
                 <p className="text-xs text-stone">Recebido em {formatDateTime(entry.created_at)}</p>
                 <button
                   onClick={() => handleDelete(entry.id)}

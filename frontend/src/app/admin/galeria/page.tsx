@@ -6,6 +6,8 @@ import { ApiError, adminApi, api, type GalleryPhoto } from "@/lib/api";
 import { useAdminFetch } from "@/lib/use-admin-fetch";
 import { Button } from "@/components/ui/button";
 import { FormNotice } from "@/components/forms/field";
+import { PageHeader } from "@/components/admin/page-header";
+import { LoadingState, EmptyState } from "@/components/admin/list-state";
 import { formatDateTime } from "@/lib/format";
 
 export default function AdminGalleryPage() {
@@ -64,19 +66,19 @@ export default function AdminGalleryPage() {
 
   return (
     <div className="flex flex-col gap-8">
-      <div>
-        <p className="font-data text-[11px] uppercase tracking-[0.18em] text-gold">Galeria</p>
-        <h1 className="font-display mt-2 text-3xl text-ink">Fotos</h1>
-      </div>
+      <PageHeader eyebrow="Galeria" title="Fotos" />
 
-      <form onSubmit={handleUpload} className="flex flex-wrap items-end gap-4 border border-ink/10 bg-white/40 p-5">
+      <form
+        onSubmit={handleUpload}
+        className="flex flex-wrap items-end gap-4 border border-ink/10 bg-white p-5 shadow-[0_1px_3px_rgba(14,18,16,0.05)]"
+      >
         <label className="flex flex-col gap-2">
           <span className="font-data text-[11px] uppercase tracking-[0.18em] text-stone">Arquivo (JPEG/PNG/WebP) *</span>
           <input type="file" name="photo" accept="image/jpeg,image/png,image/webp" required className="text-sm" />
         </label>
         <label className="flex flex-col gap-2">
           <span className="font-data text-[11px] uppercase tracking-[0.18em] text-stone">Título</span>
-          <input name="title" className="border border-ink/20 bg-transparent px-3 py-2 text-sm" />
+          <input name="title" className="border border-ink/20 bg-white px-3 py-2 text-sm" />
         </label>
         <Button type="submit" disabled={uploading}>
           {uploading ? "Enviando…" : "Enviar foto"}
@@ -87,13 +89,16 @@ export default function AdminGalleryPage() {
       {error ? <p className="text-sm text-red-800">{error}</p> : null}
 
       {!photos ? (
-        <p className="text-sm text-stone">Carregando…</p>
+        <LoadingState label="Carregando galeria" />
       ) : photos.length === 0 ? (
-        <p className="text-sm text-stone">Nenhuma foto ainda.</p>
+        <EmptyState label="Nenhuma foto ainda." />
       ) : (
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
           {photos.map((photo) => (
-            <div key={photo.id} className="flex flex-col gap-2 border border-ink/10 bg-white/40 p-2">
+            <div
+              key={photo.id}
+              className="flex flex-col gap-2 border border-ink/10 bg-white p-2 shadow-[0_1px_3px_rgba(14,18,16,0.05)] transition-shadow hover:shadow-[0_6px_16px_-8px_rgba(14,18,16,0.18)]"
+            >
               <div className="relative aspect-square w-full overflow-hidden bg-ink/5">
                 <Image src={photo.image_url} alt={photo.title ?? ""} fill className="object-cover" unoptimized />
               </div>

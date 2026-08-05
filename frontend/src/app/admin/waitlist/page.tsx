@@ -4,6 +4,9 @@ import { useEffect, useState } from "react";
 import { adminApi, type ApplicationStatus, type WaitlistEntry } from "@/lib/api";
 import { useAdminFetch } from "@/lib/use-admin-fetch";
 import { StatusBadge, STATUS_LABELS } from "@/components/admin/status-badge";
+import { StatusSelect } from "@/components/admin/status-select";
+import { PageHeader } from "@/components/admin/page-header";
+import { LoadingState, EmptyState } from "@/components/admin/list-state";
 import { formatDateTime } from "@/lib/format";
 
 const STATUS_OPTIONS: ApplicationStatus[] = ["pending", "under_review", "approved", "rejected"];
@@ -42,19 +45,16 @@ export default function AdminWaitlistPage() {
 
   return (
     <div className="flex flex-col gap-6">
-      <div>
-        <p className="font-data text-[11px] uppercase tracking-[0.18em] text-gold">Lista de Espera</p>
-        <h1 className="font-display mt-2 text-3xl text-ink">Interessados</h1>
-      </div>
+      <PageHeader eyebrow="Lista de Espera" title="Interessados" />
 
       {error ? <p className="text-sm text-red-800">{error}</p> : null}
 
       {!entries ? (
-        <p className="text-sm text-stone">Carregando…</p>
+        <LoadingState label="Carregando lista" />
       ) : entries.length === 0 ? (
-        <p className="text-sm text-stone">Nenhum registro ainda.</p>
+        <EmptyState label="Nenhum registro ainda." />
       ) : (
-        <div className="overflow-x-auto border border-ink/10">
+        <div className="overflow-x-auto border border-ink/10 bg-white shadow-[0_1px_3px_rgba(14,18,16,0.05)]">
           <table className="w-full min-w-[820px] text-left text-sm">
             <thead className="bg-ink/5 font-data text-[11px] uppercase tracking-[0.14em] text-stone">
               <tr>
@@ -67,7 +67,7 @@ export default function AdminWaitlistPage() {
             </thead>
             <tbody>
               {entries.map((entry) => (
-                <tr key={entry.id} className="border-t border-ink/10 align-top">
+                <tr key={entry.id} className="border-t border-ink/10 align-top transition-colors hover:bg-ink/1.5">
                   <td className="px-4 py-3">
                     <p className="font-medium text-ink">{entry.name}</p>
                     {entry.message ? <p className="mt-1 max-w-xs text-xs text-stone">{entry.message}</p> : null}
@@ -84,18 +84,13 @@ export default function AdminWaitlistPage() {
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-2">
                       <StatusBadge status={entry.status} />
-                      <select
+                      <StatusSelect
                         value={entry.status}
+                        options={STATUS_OPTIONS}
+                        labels={STATUS_LABELS}
                         disabled={updatingId === entry.id}
-                        onChange={(event) => handleStatusChange(entry.id, event.target.value as ApplicationStatus)}
-                        className="border border-ink/20 bg-transparent px-2 py-1 text-xs"
-                      >
-                        {STATUS_OPTIONS.map((status) => (
-                          <option key={status} value={status}>
-                            {STATUS_LABELS[status] ?? status}
-                          </option>
-                        ))}
-                      </select>
+                        onChange={(status) => handleStatusChange(entry.id, status)}
+                      />
                     </div>
                   </td>
                 </tr>

@@ -7,6 +7,8 @@ import { StatusBadge } from "@/components/admin/status-badge";
 import { formatDateTime } from "@/lib/format";
 import { Button } from "@/components/ui/button";
 import { FormNotice } from "@/components/forms/field";
+import { PageHeader } from "@/components/admin/page-header";
+import { LoadingState, EmptyState } from "@/components/admin/list-state";
 
 export default function AdminMeetingsPage() {
   const adminFetch = useAdminFetch();
@@ -79,23 +81,23 @@ export default function AdminMeetingsPage() {
 
   return (
     <div className="flex flex-col gap-10">
-      <div>
-        <p className="font-data text-[11px] uppercase tracking-[0.18em] text-gold">Reuniões</p>
-        <h1 className="font-display mt-2 text-3xl text-ink">Horários e reservas</h1>
-      </div>
+      <PageHeader eyebrow="Reuniões" title="Horários e reservas" />
 
       {error ? <p className="text-sm text-red-800">{error}</p> : null}
 
       <section className="flex flex-col gap-4">
         <h2 className="font-display text-xl text-ink">Novo horário</h2>
-        <form onSubmit={handleCreate} className="grid gap-4 border border-ink/10 bg-white/40 p-5 sm:grid-cols-2">
+        <form
+          onSubmit={handleCreate}
+          className="grid gap-4 border border-ink/10 bg-white p-5 shadow-[0_1px_3px_rgba(14,18,16,0.05)] sm:grid-cols-2"
+        >
           <label className="flex flex-col gap-2">
             <span className="font-data text-[11px] uppercase tracking-[0.18em] text-stone">Início *</span>
             <input
               type="datetime-local"
               name="starts_at"
               required
-              className="border border-ink/20 bg-transparent px-3 py-2 text-sm"
+              className="border border-ink/20 bg-white px-3 py-2 text-sm"
             />
           </label>
           <label className="flex flex-col gap-2">
@@ -104,12 +106,12 @@ export default function AdminMeetingsPage() {
               type="datetime-local"
               name="ends_at"
               required
-              className="border border-ink/20 bg-transparent px-3 py-2 text-sm"
+              className="border border-ink/20 bg-white px-3 py-2 text-sm"
             />
           </label>
           <label className="flex flex-col gap-2">
             <span className="font-data text-[11px] uppercase tracking-[0.18em] text-stone">Local</span>
-            <input name="location" className="border border-ink/20 bg-transparent px-3 py-2 text-sm" />
+            <input name="location" className="border border-ink/20 bg-white px-3 py-2 text-sm" />
           </label>
           <label className="flex flex-col gap-2">
             <span className="font-data text-[11px] uppercase tracking-[0.18em] text-stone">Capacidade</span>
@@ -119,7 +121,7 @@ export default function AdminMeetingsPage() {
               min={1}
               max={50}
               defaultValue={1}
-              className="border border-ink/20 bg-transparent px-3 py-2 text-sm"
+              className="border border-ink/20 bg-white px-3 py-2 text-sm"
             />
           </label>
           <div className="sm:col-span-2">
@@ -136,12 +138,12 @@ export default function AdminMeetingsPage() {
       <section className="flex flex-col gap-4">
         <h2 className="font-display text-xl text-ink">Horários</h2>
         {!slots ? (
-          <p className="text-sm text-stone">Carregando…</p>
+          <LoadingState label="Carregando horários" />
         ) : slots.length === 0 ? (
-          <p className="text-sm text-stone">Nenhum horário cadastrado.</p>
+          <EmptyState label="Nenhum horário cadastrado." />
         ) : (
-          <div className="overflow-x-auto border border-ink/10">
-            <table className="w-full min-w-[720px] text-left text-sm">
+          <div className="overflow-x-auto border border-ink/10 bg-white shadow-[0_1px_3px_rgba(14,18,16,0.05)]">
+            <table className="w-full min-w-180 text-left text-sm">
               <thead className="bg-ink/5 font-data text-[11px] uppercase tracking-[0.14em] text-stone">
                 <tr>
                   <th className="px-4 py-3">Início</th>
@@ -154,7 +156,7 @@ export default function AdminMeetingsPage() {
               </thead>
               <tbody>
                 {slots.map((slot) => (
-                  <tr key={slot.id} className="border-t border-ink/10">
+                  <tr key={slot.id} className="border-t border-ink/10 transition-colors hover:bg-ink/1.5">
                     <td className="px-4 py-3">{formatDateTime(slot.starts_at)}</td>
                     <td className="px-4 py-3">{formatDateTime(slot.ends_at)}</td>
                     <td className="px-4 py-3 text-stone">{slot.location ?? "—"}</td>
@@ -184,12 +186,12 @@ export default function AdminMeetingsPage() {
       <section className="flex flex-col gap-4">
         <h2 className="font-display text-xl text-ink">Reservas</h2>
         {!bookings ? (
-          <p className="text-sm text-stone">Carregando…</p>
+          <LoadingState label="Carregando reservas" />
         ) : bookings.length === 0 ? (
-          <p className="text-sm text-stone">Nenhuma reserva ainda.</p>
+          <EmptyState label="Nenhuma reserva ainda." />
         ) : (
-          <div className="overflow-x-auto border border-ink/10">
-            <table className="w-full min-w-[720px] text-left text-sm">
+          <div className="overflow-x-auto border border-ink/10 bg-white shadow-[0_1px_3px_rgba(14,18,16,0.05)]">
+            <table className="w-full min-w-180 text-left text-sm">
               <thead className="bg-ink/5 font-data text-[11px] uppercase tracking-[0.14em] text-stone">
                 <tr>
                   <th className="px-4 py-3">Nome</th>
@@ -200,7 +202,7 @@ export default function AdminMeetingsPage() {
               </thead>
               <tbody>
                 {bookings.map((booking) => (
-                  <tr key={booking.id} className="border-t border-ink/10">
+                  <tr key={booking.id} className="border-t border-ink/10 transition-colors hover:bg-ink/1.5">
                     <td className="px-4 py-3">{booking.name}</td>
                     <td className="px-4 py-3 text-stone">
                       <p>{booking.email}</p>

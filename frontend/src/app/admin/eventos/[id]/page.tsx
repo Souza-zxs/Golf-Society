@@ -5,8 +5,10 @@ import { useRouter } from "next/navigation";
 import { ApiError, adminApi, api, type EventPartner, type EventStatus, type SsgEvent } from "@/lib/api";
 import { useAdminFetch } from "@/lib/use-admin-fetch";
 import { Button } from "@/components/ui/button";
-import { TextField, TextAreaField, FormNotice } from "@/components/forms/field";
+import { TextField, TextAreaField, SelectField, FormNotice } from "@/components/forms/field";
 import { STATUS_LABELS } from "@/components/admin/status-badge";
+import { PageHeader } from "@/components/admin/page-header";
+import { LoadingState, EmptyState } from "@/components/admin/list-state";
 
 const STATUS_OPTIONS: EventStatus[] = ["upcoming", "ongoing", "completed", "cancelled"];
 
@@ -85,14 +87,11 @@ export default function AdminEventFormPage({ params }: { params: Promise<{ id: s
     }
   }
 
-  if (loading) return <p className="text-sm text-stone">Carregando…</p>;
+  if (loading) return <LoadingState label="Carregando evento" />;
 
   return (
     <div className="flex max-w-2xl flex-col gap-10">
-      <div>
-        <p className="font-data text-[11px] uppercase tracking-[0.18em] text-gold">Eventos</p>
-        <h1 className="font-display mt-2 text-3xl text-ink">{isNew ? "Novo evento" : "Editar evento"}</h1>
-      </div>
+      <PageHeader eyebrow="Eventos" title={isNew ? "Novo evento" : "Editar evento"} />
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-5">
         <TextField label="Título" name="title" required defaultValue={event?.title} />
@@ -118,20 +117,13 @@ export default function AdminEventFormPage({ params }: { params: Promise<{ id: s
         />
 
         <div className="grid gap-4 sm:grid-cols-2">
-          <label className="flex flex-col gap-2">
-            <span className="font-data text-[11px] uppercase tracking-[0.18em] text-stone">Status</span>
-            <select
-              name="status"
-              defaultValue={event?.status ?? "upcoming"}
-              className="w-full border border-ink/20 bg-transparent px-4 py-3 text-sm text-ink focus:border-gold focus:outline-none"
-            >
-              {STATUS_OPTIONS.map((status) => (
-                <option key={status} value={status}>
-                  {STATUS_LABELS[status] ?? status}
-                </option>
-              ))}
-            </select>
-          </label>
+          <SelectField label="Status" name="status" defaultValue={event?.status ?? "upcoming"}>
+            {STATUS_OPTIONS.map((status) => (
+              <option key={status} value={status}>
+                {STATUS_LABELS[status] ?? status}
+              </option>
+            ))}
+          </SelectField>
           <TextField
             label="Máx. participantes"
             name="max_attendees"
@@ -225,15 +217,15 @@ function PartnersSection({ eventId }: { eventId: string }) {
       {error ? <p className="text-sm text-red-800">{error}</p> : null}
 
       {!partners ? (
-        <p className="text-sm text-stone">Carregando…</p>
+        <LoadingState label="Carregando parceiros" />
       ) : partners.length === 0 ? (
-        <p className="text-sm text-stone">Nenhum parceiro ainda.</p>
+        <EmptyState label="Nenhum parceiro ainda." />
       ) : (
         <ul className="flex flex-col gap-2">
           {partners.map((partner) => (
             <li
               key={partner.id}
-              className="flex flex-wrap items-center justify-between gap-3 border border-ink/10 bg-white/40 px-4 py-3"
+              className="flex flex-wrap items-center justify-between gap-3 border border-ink/10 bg-white px-4 py-3 shadow-[0_1px_3px_rgba(14,18,16,0.05)]"
             >
               <div>
                 <p className="text-sm font-medium text-ink">{partner.name}</p>
@@ -263,7 +255,7 @@ function PartnersSection({ eventId }: { eventId: string }) {
       <form
         key={editing?.id ?? "new"}
         onSubmit={handleSubmit}
-        className="grid gap-4 border border-ink/10 bg-white/40 p-5 sm:grid-cols-2"
+        className="grid gap-4 border border-ink/10 bg-white p-5 shadow-[0_1px_3px_rgba(14,18,16,0.05)] sm:grid-cols-2"
       >
         <p className="font-data text-[11px] uppercase tracking-[0.18em] text-stone sm:col-span-2">
           {editing ? `Editando: ${editing.name}` : "Novo parceiro"}

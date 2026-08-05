@@ -2,6 +2,7 @@ import Image from "next/image";
 import manifestoFairway from "../../public/manifesto-fairway.jpg";
 import horizonLogo from "../../public/brand/horizon-logo-cropped.png";
 import revollutionLogo from "../../public/brand/revollution-mark-transparent.png";
+import hrtLogo from "../../public/brand/hrt-logo-light.png";
 import { Container } from "@/components/ui/container";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { LinkButton } from "@/components/ui/button";
@@ -211,6 +212,18 @@ export default async function Home() {
                   src={horizonLogo}
                   alt="Horizon"
                   className="h-28 w-auto opacity-70 grayscale transition-all duration-300 hover:opacity-100 hover:grayscale-0 sm:h-36"
+                />
+              </a>
+              <a
+                href="https://www.hrtcosmeticos.com.br/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="HRT Cosméticos"
+              >
+                <Image
+                  src={hrtLogo}
+                  alt="HRT Cosméticos"
+                  className="h-20 w-auto opacity-70 transition-opacity duration-300 hover:opacity-100 sm:h-24"
                 />
               </a>
               <a
