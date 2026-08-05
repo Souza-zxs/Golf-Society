@@ -5,6 +5,7 @@ import { validateBody } from '../_shared/validate.ts';
 import { requireAdmin } from '../_shared/requireAdmin.ts';
 import { publicFormLimiter } from '../_shared/rateLimiter.ts';
 import { internalError, notFound } from '../_shared/errors.ts';
+import { sendApprovalEmail } from '../_shared/emailService.ts';
 import {
   createMembershipApplicationSchema,
   updateMembershipStatusSchema,
@@ -47,6 +48,12 @@ app.patch('/:id/status', requireAdmin, validateBody(updateMembershipStatusSchema
   const { id } = c.req.param();
   const body = c.get('body') as { status: string };
 
+  const { data: existing } = await supabase
+    .from('membership_applications')
+    .select('status')
+    .eq('id', id)
+    .maybeSingle();
+
   const { data, error } = await supabase
     .from('membership_applications')
     .update({ status: body.status, reviewed_at: new Date().toISOString() })
@@ -56,6 +63,11 @@ app.patch('/:id/status', requireAdmin, validateBody(updateMembershipStatusSchema
 
   if (error) return internalError(c, 'Erro ao atualizar status', error);
   if (!data) return notFound(c, 'Candidatura não encontrada');
+
+  if (data.status === 'approved' && existing?.status !== 'approved') {
+    await sendApprovalEmail({ to: data.email, name: data.name, type: 'membership' });
+  }
+
   return c.json(data);
 });
 

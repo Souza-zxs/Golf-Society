@@ -5,6 +5,7 @@ import { validateBody } from '../_shared/validate.ts';
 import { requireAdmin } from '../_shared/requireAdmin.ts';
 import { publicFormLimiter } from '../_shared/rateLimiter.ts';
 import { internalError, notFound } from '../_shared/errors.ts';
+import { sendApprovalEmail } from '../_shared/emailService.ts';
 import {
   createSponsorshipApplicationSchema,
   updateSponsorshipStatusSchema,
@@ -36,6 +37,12 @@ app.patch('/:id/status', requireAdmin, validateBody(updateSponsorshipStatusSchem
   const { id } = c.req.param();
   const body = c.get('body') as { status: string };
 
+  const { data: existing } = await supabase
+    .from('sponsorship_applications')
+    .select('status')
+    .eq('id', id)
+    .maybeSingle();
+
   const { data, error } = await supabase
     .from('sponsorship_applications')
     .update({ status: body.status })
@@ -45,6 +52,16 @@ app.patch('/:id/status', requireAdmin, validateBody(updateSponsorshipStatusSchem
 
   if (error) return internalError(c, 'Erro ao atualizar status', error);
   if (!data) return notFound(c, 'Candidatura não encontrada');
+
+  if (data.status === 'approved' && existing?.status !== 'approved') {
+    await sendApprovalEmail({
+      to: data.email,
+      name: data.contact_name,
+      type: 'sponsorship',
+      company: data.company_name,
+    });
+  }
+
   return c.json(data);
 });
 
